@@ -1,0 +1,440 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+import WantedTerminal from '../components/WantedTerminal.astro';
+import CrtTerminal from '../components/CrtTerminal.astro';
+import CompactTerminal from '../components/CompactTerminal.astro';
+import GlitchText from '../components/GlitchText.astro';
+import HologramTerminal from '../components/HologramTerminal.astro';
+import TerminalButton from '../components/TerminalButton.astro';
+import CubeTerminal from '../components/CubeTerminal.astro';
+
+import githubIcon from '../assets/github.svg?raw';
+import linkedinIcon from '../assets/linkedin.svg?raw';
+---
+
+<Layout>
+	<!-- Fixed Navigation (outside main flow) -->
+	<Navigation />
+
+	<main class="w-full min-h-screen bg-(--theme-midnight-black)">
+
+		<!-- ══════════════════════════════════════════════════════════════
+		     SECTION 1: Landing Hero Video + Hologram
+		     ══════════════════════════════════════════════════════════════ -->
+		<section class="relative w-full h-screen overflow-hidden bg-(--theme-midnight-black)" style="z-index: 20;">
+			<!-- Background Video: landscape on desktop, portrait crop on mobile -->
+			<video
+				autoplay
+				loop
+				muted
+				playsinline
+				class="hero-video absolute top-0 left-0 w-full h-full object-cover scale-[1.15] origin-top z-0 opacity-40 mix-blend-screen"
+			>
+				<source src="/landingPageVIdeo.mp4" type="video/mp4" />
+			</video>
+
+			<!-- Content Container -->
+			<div class="relative z-20 w-full lg:w-10/12 max-w-270 mx-auto h-full flex flex-col px-6 lg:px-0">
+				<div class="grow flex flex-col justify-center">
+					<HologramTerminal hologramTitle="Developer Profile" hologramLabel="// skill_stack.init()">
+						<div class="htl-skills">
+							<div class="htl-skill-row" style="--delay: 0s; --indent: 0px;">
+								<span class="htl-prompt">›</span>
+								<span class="htl-skill">front-end</span>
+							</div>
+							<div class="htl-skill-row" style="--delay: 0.15s; --indent: clamp(20px, 5vw, 50px);">
+								<span class="htl-prompt">›</span>
+								<span class="htl-skill">umbraco</span>
+							</div>
+							<div class="htl-skill-row" style="--delay: 0.3s; --indent: clamp(40px, 10vw, 100px);">
+								<span class="htl-prompt">›</span>
+								<span class="htl-skill">game-dev</span>
+							</div>
+							<div class="htl-skill-row" style="--delay: 0.45s; --indent: clamp(60px, 15vw, 150px);">
+								<span class="htl-prompt">›</span>
+								<span class="htl-skill">applied AI</span>
+							</div>
+						</div>
+					</HologramTerminal>
+				</div>
+			</div>
+		</section>
+
+		<!-- ══════════════════════════════════════════════════════════════
+		     SECTION 2: Dossier / Persona
+		     ══════════════════════════════════════════════════════════════ -->
+		<section class="w-full py-16 sm:py-24 relative bg-(--theme-midnight-black)">
+			<div class="w-full lg:w-10/12 max-w-270 mx-auto px-6 lg:px-0 relative z-10">
+
+				<!-- Section label -->
+				<span class="block text-[10px] font-mono text-(--theme-neon-red) tracking-widest uppercase mb-3 opacity-70">
+					// available data for this persona
+				</span>
+
+				<!-- Bordered block -->
+				<div class="border-t border-(--theme-neon-red) pt-14">
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-start">
+
+						<!-- Left: WantedTerminal -->
+						<WantedTerminal rotate={true}>
+							<!-- Profile Image -->
+							<div class="relative mb-6">
+								<div class="absolute -inset-0.5 bg-(--theme-neon-cyan) opacity-30 blur-sm rounded-md"></div>
+								<img
+									src="/persona.jpg"
+									alt="Mirza Hajric Persona"
+									class="relative w-full h-80 object-cover rounded-md border border-(--theme-neon-cyan) grayscale-20 contrast-125"
+								/>
+								<!-- Crosshairs -->
+								<div class="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-(--theme-neon-cyan)"></div>
+								<div class="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-(--theme-neon-cyan)"></div>
+							</div>
+
+							<!-- Profile Data -->
+							<div class="w-full text-xs sm:text-sm space-y-3 uppercase font-mono tracking-widest text-(--theme-text-base)">
+								<p class="flex justify-between pb-1 border-b border-black/30">
+									<span class="opacity-50">name:</span>
+									<span class="text-(--theme-neon-cyan)">mirza hajric</span>
+								</p>
+								<p class="flex justify-between pb-1 border-b border-black/30">
+									<span class="opacity-50">alias:</span>
+									<span>iris</span>
+								</p>
+								<p class="flex justify-between pb-1 border-b border-black/30">
+									<span class="opacity-50">work:</span>
+									<span>maus.ba &amp; freelance</span>
+								</p>
+								<p class="flex justify-between pb-1 border-b border-black/30">
+									<span class="opacity-50">title:</span>
+									<span class="text-(--theme-accent)">front end dev</span>
+								</p>
+								<p class="flex justify-between pb-1 border-b border-black/30">
+									<span class="opacity-50">connection:</span>
+									<span class="text-(--theme-neon-cyan)">+387671048215</span>
+								</p>
+								<p class="flex justify-between pb-1 mt-4 border-b border-black/30">
+									<span class="opacity-50">location:</span>
+									<span class="text-(--theme-neon-red) animate-pulse">unknown</span>
+								</p>
+								<p class="flex justify-between">
+									<span class="opacity-50">last seen:</span>
+									<span>code-city</span>
+								</p>
+							</div>
+						</WantedTerminal>
+
+						<!-- Right: Dossier text -->
+						<div class="flex flex-col justify-start h-full pt-4">
+							<GlitchText
+								tag="h2"
+								text="Dossier"
+								delay={2500}
+								class="text-4xl sm:text-5xl md:text-6xl text-(--theme-text-base) mb-8 text-left tracking-widest uppercase font-bold font-mono"
+							/>
+							<div class="text-(--theme-text-base) text-left text-lg leading-relaxed font-mono">
+								<p>
+									A developer who turns lines of code into creative solutions, fueled by synthwave and a childhood fascination with The Matrix. I see AI as humanity's greatest achievement—let's understand it and use it pragmatically this time, rather than fighting it.
+								</p>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+				<!-- ── Social links + Profiling row ──────────────────────────────── -->
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 mt-24 items-center">
+
+					<!-- Left: CubeTerminal social buttons -->
+					<div class="flex gap-6 items-center w-full">
+						<CubeTerminal as="a" href="https://github.com/Iris94" label="GitHub — Iris94" largeCube={true}>
+							<Fragment set:html={githubIcon} />
+						</CubeTerminal>
+						<CubeTerminal as="a" href="https://www.linkedin.com/in/iris94/" label="LinkedIn — Iris94" largeCube={true}>
+							<Fragment set:html={linkedinIcon} />
+						</CubeTerminal>
+					</div>
+
+					<!-- Right: Profiling heading -->
+					<div>
+						<GlitchText
+							tag="h3"
+							text="Profiling Dossier"
+							delay={3500}
+							class="text-2xl sm:text-3xl md:text-4xl text-(--theme-text-base) tracking-widest uppercase font-bold font-mono"
+						/>
+					</div>
+
+				</div>
+				<!-- /social row -->
+
+			</div>
+			</div>
+		</section>
+
+		<!-- ══════════════════════════════════════════════════════════════
+		     SECTION 3: Establishing Connection / Contact
+		     ══════════════════════════════════════════════════════════════ -->
+		<section class="w-full py-16 sm:py-24 bg-(--theme-midnight-black) relative">
+			<div class="w-full lg:w-10/12 max-w-270 mx-auto px-6 lg:px-0 relative z-10">
+
+				<!-- Section label -->
+				<span class="block text-[10px] font-mono text-(--theme-neon-red) tracking-widest uppercase mb-3 opacity-70">
+					// establishing connection
+				</span>
+
+				<!-- Bordered block -->
+				<div class="border-t border-(--theme-neon-red) pt-14">
+
+					<!-- Desktop: CrtTerminal -->
+					<div class="hidden sm:block">
+						<CrtTerminal maxWidth="max-w-[1100px]">
+							<!-- Terminal Boot Sequence -->
+							<div id="terminal-boot" class="mb-4">
+								<span class="text-(--theme-neon-red)">iris@code-city</span><span class="text-(--theme-text-base)">:~$</span>&nbsp;
+								<span id="typewriter"></span><span id="blink-cursor" class="animate-pulse">_</span>
+							</div>
+
+							<!-- Form Container (hidden initially) -->
+							<div id="terminal-form" class="hidden flex-col gap-4 text-sm w-full h-full">
+								<p class="text-(--theme-text-base) text-xs mb-2">&gt; SECURE CONNECTION ESTABLISHED. AWAITING TRANSMISSION...</p>
+
+								<form id="contact-form" action="https://api.web3forms.com/submit" method="POST" class="flex flex-col gap-5 w-full max-w-150">
+									<input type="hidden" name="access_key" value="186c8161-07f7-4f99-9b38-ecef428bc717">
+									<input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+									<div class="flex flex-col gap-1">
+										<label class="text-(--theme-text-base) opacity-70 text-xs">NAME_</label>
+										<input type="text" name="name" required class="bg-transparent border-b border-(--theme-blue-indigo) focus:border-(--theme-neon-cyan) outline-none text-(--theme-neon-cyan) py-1 transition-colors" />
+									</div>
+
+									<div class="flex flex-col gap-1">
+										<label class="text-(--theme-text-base) opacity-70 text-xs">EMAIL_</label>
+										<input type="email" name="email" required class="bg-transparent border-b border-(--theme-blue-indigo) focus:border-(--theme-neon-cyan) outline-none text-(--theme-neon-cyan) py-1 transition-colors" />
+									</div>
+
+									<div class="flex flex-col gap-1 grow">
+										<label class="text-(--theme-text-base) opacity-70 text-xs">MESSAGE_</label>
+										<textarea name="message" required rows="4" class="bg-transparent border-b border-(--theme-blue-indigo) focus:border-(--theme-neon-cyan) outline-none text-(--theme-neon-cyan) py-1 resize-none transition-colors"></textarea>
+									</div>
+
+									<TerminalButton type="submit" id="submit-btn" label="INIT_TRANSMIT" class="mt-2 self-start" />
+								</form>
+							</div>
+						</CrtTerminal>
+					</div>
+
+					<!-- Mobile: CompactTerminal -->
+					<div class="block sm:hidden">
+						<CompactTerminal>
+							<!-- Terminal Boot Sequence (mobile) -->
+							<div id="terminal-boot-m" class="mb-4">
+								<span class="text-(--theme-neon-red)">iris@code-city</span><span class="text-(--theme-text-base)">:~$</span>&nbsp;
+								<span id="typewriter-m"></span><span id="blink-cursor-m" class="animate-pulse">_</span>
+							</div>
+
+							<!-- Form (mobile, hidden initially) -->
+							<div id="terminal-form-m" class="hidden flex-col gap-4 text-xs w-full">
+								<p class="text-(--theme-text-base) text-xs mb-2">&gt; SECURE CONNECTION ESTABLISHED.</p>
+
+								<form id="contact-form-m" action="https://api.web3forms.com/submit" method="POST" class="flex flex-col gap-4 w-full">
+									<input type="hidden" name="access_key" value="186c8161-07f7-4f99-9b38-ecef428bc717">
+									<input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+									<div class="flex flex-col gap-1">
+										<label class="text-(--theme-text-base) opacity-70 text-xs">NAME_</label>
+										<input type="text" name="name" required class="bg-transparent border-b border-(--theme-blue-indigo) focus:border-(--theme-neon-cyan) outline-none text-(--theme-neon-cyan) py-1 transition-colors" />
+									</div>
+
+									<div class="flex flex-col gap-1">
+										<label class="text-(--theme-text-base) opacity-70 text-xs">EMAIL_</label>
+										<input type="email" name="email" required class="bg-transparent border-b border-(--theme-blue-indigo) focus:border-(--theme-neon-cyan) outline-none text-(--theme-neon-cyan) py-1 transition-colors" />
+									</div>
+
+									<div class="flex flex-col gap-1">
+										<label class="text-(--theme-text-base) opacity-70 text-xs">MESSAGE_</label>
+										<textarea name="message" required rows="3" class="bg-transparent border-b border-(--theme-blue-indigo) focus:border-(--theme-neon-cyan) outline-none text-(--theme-neon-cyan) py-1 resize-none transition-colors"></textarea>
+									</div>
+
+									<TerminalButton type="submit" id="submit-btn-m" label="INIT_TRANSMIT" class="mt-1 self-start" />
+								</form>
+							</div>
+						</CompactTerminal>
+					</div>
+
+				</div>
+			</div>
+		</section>
+
+		<!-- ══════════════════════════════════════════════════════════════
+		     SECTION 4: Developer Cases — full video + hologram overlay
+		     ══════════════════════════════════════════════════════════════ -->
+		<section class="relative w-full overflow-hidden bg-(--theme-midnight-black)" style="height: 85vh; z-index: 20;">
+			<!-- Background Video -->
+			<video
+				autoplay loop muted playsinline
+				class="cases-video absolute top-0 left-0 w-full h-full object-cover z-0 opacity-40 mix-blend-screen"
+			>
+				<source src="/caseWrapper.mp4" type="video/mp4" />
+			</video>
+
+			<!-- Content overlay -->
+			<div class="relative z-20 w-full lg:w-10/12 max-w-270 mx-auto h-full flex flex-col px-6 lg:px-0">
+				<div class="grow flex flex-col justify-center">
+					<HologramTerminal hologramTitle="Developer Cases" hologramLabel="// known_cases()">
+						<div class="py-4">
+							<TerminalButton label="VIEW_CASES" href="/cases" />
+						</div>
+					</HologramTerminal>
+				</div>
+			</div>
+		</section>
+
+	</main>
+</Layout>
+
+<script>
+	// ── Desktop typewriter ──────────────────────────────────────────────
+	const textToType   = './initialize_module.sh\n> Establishing connection...';
+	const typewriterEl = document.getElementById('typewriter') as HTMLElement;
+	const terminalBoot = document.getElementById('terminal-boot') as HTMLElement;
+	const terminalForm = document.getElementById('terminal-form') as HTMLElement;
+	const blinkCursor  = document.getElementById('blink-cursor') as HTMLElement;
+
+	let i = 0;
+	let typingStarted = false;
+
+	function typeWriter() {
+		if (i < textToType.length && typewriterEl) {
+			typewriterEl.innerHTML += textToType.charAt(i) === '\n' ? '<br>' : textToType.charAt(i);
+			i++;
+			setTimeout(typeWriter, 50);
+		} else {
+			setTimeout(() => {
+				if (terminalBoot) terminalBoot.style.display = 'none';
+				if (blinkCursor)  blinkCursor.style.display  = 'none';
+				if (terminalForm) {
+					terminalForm.classList.remove('hidden');
+					terminalForm.classList.add('flex');
+				}
+			}, 1000);
+		}
+	}
+
+	if (terminalBoot) {
+		const obs = new IntersectionObserver((entries) => {
+			if (entries[0].isIntersecting && !typingStarted) {
+				typingStarted = true;
+				setTimeout(typeWriter, 600);
+				obs.disconnect();
+			}
+		});
+		obs.observe(terminalBoot);
+	}
+
+	// ── Mobile typewriter ───────────────────────────────────────────────
+	const typewriterElM = document.getElementById('typewriter-m') as HTMLElement;
+	const terminalBootM = document.getElementById('terminal-boot-m') as HTMLElement;
+	const terminalFormM = document.getElementById('terminal-form-m') as HTMLElement;
+	const blinkCursorM  = document.getElementById('blink-cursor-m') as HTMLElement;
+
+	let im = 0;
+	let typingStartedM = false;
+
+	function typeWriterM() {
+		if (im < textToType.length && typewriterElM) {
+			typewriterElM.innerHTML += textToType.charAt(im) === '\n' ? '<br>' : textToType.charAt(im);
+			im++;
+			setTimeout(typeWriterM, 60);
+		} else {
+			setTimeout(() => {
+				if (terminalBootM) terminalBootM.style.display = 'none';
+				if (blinkCursorM)  blinkCursorM.style.display  = 'none';
+				if (terminalFormM) {
+					terminalFormM.classList.remove('hidden');
+					terminalFormM.classList.add('flex');
+				}
+			}, 800);
+		}
+	}
+
+	if (terminalBootM) {
+		const obsM = new IntersectionObserver((entries) => {
+			if (entries[0].isIntersecting && !typingStartedM) {
+				typingStartedM = true;
+				setTimeout(typeWriterM, 600);
+				obsM.disconnect();
+			}
+		});
+		obsM.observe(terminalBootM);
+	}
+
+	// ── Web3Forms — desktop ─────────────────────────────────────────────
+	function wireForm(formId: string, btnId: string) {
+		const form = document.getElementById(formId) as HTMLFormElement;
+		if (!form) return;
+		const btn = document.getElementById(btnId) as HTMLButtonElement;
+
+		form.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			const formData = new FormData(form);
+			const originalText = btn.innerHTML;
+
+			btn.innerHTML  = '[ TRANSMITTING... ]';
+			btn.disabled   = true;
+			btn.style.opacity = '0.5';
+
+			try {
+				const res  = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData });
+				const data = await res.json();
+
+				if (res.ok) {
+					btn.innerHTML = '[ TRANSMISSION SUCCESS ]';
+					btn.style.color       = '#00ff00';
+					btn.style.borderColor = '#00ff00';
+					form.reset();
+					setTimeout(() => {
+						btn.innerHTML = originalText;
+						btn.disabled  = false;
+						btn.style.opacity     = '1';
+						btn.style.color       = '';
+						btn.style.borderColor = '';
+					}, 5000);
+				} else {
+					alert('Error: ' + data.message);
+					btn.innerHTML = originalText;
+					btn.disabled  = false;
+					btn.style.opacity = '1';
+				}
+			} catch {
+				alert('Terminal error. Please try again.');
+				btn.innerHTML = originalText;
+				btn.disabled  = false;
+				btn.style.opacity = '1';
+			}
+		});
+	}
+
+	wireForm('contact-form',   'submit-btn');
+	wireForm('contact-form-m', 'submit-btn-m');
+</script>
+
+<style>
+	/* Global scrollbar */
+	:root {
+		scrollbar-width: thin;
+		scrollbar-color: var(--theme-neon-red) var(--theme-midnight-black);
+	}
+	::-webkit-scrollbar { width: 6px; }
+	::-webkit-scrollbar-track { background: var(--theme-midnight-black); }
+	::-webkit-scrollbar-thumb { background-color: var(--theme-neon-red); border-radius: 0; }
+
+	/* Portrait video crop on mobile */
+	@media (max-width: 640px) {
+		.hero-video,
+		.cases-video {
+			object-position: center center;
+			transform: none;
+		}
+	}
+</style>

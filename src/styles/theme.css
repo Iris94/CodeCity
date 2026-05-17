@@ -1,0 +1,37 @@
+@theme {
+  /* --- OSNOVNI SVALBEK TEKST --- */
+  --theme-text-base: #aaaaaa;
+
+  /* --- TVOJE EKPLICITNO TRAŽENE BOJE --- */
+  --theme-accent: #F9C80E;        /* Zlatno žuta */
+  --theme-neon-cyan: #2DE2E6;     /* Neon Cyan */
+  --theme-neon-red: #FD1D53;      /* Neon Red */
+
+  /* --- GORNJI LIJEVI BLOK --- */
+  --theme-orange-vibrant: #FF6C11;
+  --theme-pink-crimson: #FF3864;
+  --theme-purple-abyss: #261447;
+  --theme-midnight-black: #0D0221;
+
+  /* --- GORNJI DESNI BLOK --- */
+  --theme-blue-electric: #023788;
+  --theme-purple-royal: #650D89;
+  --theme-magenta-deep: #920075;
+  --theme-pink-neon-alt: #F6019D;
+  --theme-pink-dark: #D40078;
+
+  /* --- DONJI LIJEVI BLOK --- */
+  --theme-purple-shuttle: #241734;
+  --theme-blue-indigo: #2E2157;
+  --theme-pink-hot: #FD3777;
+  --theme-magenta-bright: #F706CF;
+
+  /* --- DONJI DESNI BLOK --- */
+  --theme-pink-coral: #FF4365;
+  --theme-purple-dark-1: #540D6E;
+  --theme-purple-medium: #791E94;
+  --theme-purple-dark-2: #541388;
+
+  /* Custom Fonts */
+  --font-space: "Space Grotesk", sans-serif;
+}

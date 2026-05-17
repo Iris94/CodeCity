@@ -1,0 +1,339 @@
+---
+// CrtTerminal — Cyberdeck Module
+// Layout: [main content 70% | hex-stream sidebar 30%]
+interface Props {
+  maxWidth?: string;
+  sysId?: string;
+}
+
+const { maxWidth = "max-w-[900px]", sysId = "IRIS_94" } = Astro.props;
+---
+
+<div class={`cyberdeck-outer relative w-full ${maxWidth} mx-auto`}>
+
+  <!-- ── Top bar: module header ──────────────────────────────────── -->
+  <div class="cyberdeck-header">
+    <div class="cyberdeck-header-left">
+      <span class="cd-led cd-led-red"></span>
+      <span class="cd-led cd-led-amber"></span>
+      <span class="cd-led cd-led-green"></span>
+      <span class="cd-module-label">CYBERDECK MODULE // IRIS_94</span>
+    </div>
+    <div class="cyberdeck-header-right">
+      <span class="cd-status-pill">BIOMETRIC: OK</span>
+      <span class="cd-status-pill cd-pill-cyan">CLEARANCE: IRIS</span>
+      <span class="cd-status-pill cd-pill-active">COMPILER: ACTIVE</span>
+    </div>
+  </div>
+
+  <!-- ── Main body ────────────────────────────────────────────────── -->
+  <div class="cyberdeck-body">
+
+    <!-- Left: screen content (70%) -->
+    <div class="cyberdeck-screen">
+      <!-- Scanlines -->
+      <div class="cd-scanlines"></div>
+      <!-- Shimmer -->
+      <div class="cd-shimmer"></div>
+
+      <!-- Top status strip inside screen -->
+      <div class="cd-screen-bar">
+        <span class="opacity-60">{sysId} :~$</span>
+        <span class="flex items-center gap-1.5 ml-auto">
+          NET <span class="cd-pulse-dot"></span>
+        </span>
+      </div>
+
+      <!-- Slot -->
+      <div class="cd-screen-content">
+        <slot />
+      </div>
+    </div>
+
+    <!-- Right: hex / binary stream sidebar (30%) -->
+    <div class="cyberdeck-sidebar">
+      <div class="cd-sidebar-header">// DATA_STREAM</div>
+      <div class="cd-hex-stream" id="crt-hex-stream">
+        <!-- populated by JS -->
+      </div>
+      <div class="cd-sidebar-footer">
+        <div class="cd-sidebar-stat"><span class="cd-stat-label">CPU</span><span class="cd-stat-bar"><span class="cd-stat-fill" style="width:72%"></span></span></div>
+        <div class="cd-sidebar-stat"><span class="cd-stat-label">MEM</span><span class="cd-stat-bar"><span class="cd-stat-fill cd-fill-red" style="width:45%"></span></span></div>
+        <div class="cd-sidebar-stat"><span class="cd-stat-label">NET</span><span class="cd-stat-bar"><span class="cd-stat-fill cd-fill-amber" style="width:88%"></span></span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Bottom connector rail ────────────────────────────────────── -->
+  <div class="cyberdeck-footer">
+    <div class="cd-connector"></div>
+    <div class="cd-connector"></div>
+    <div class="cd-connector"></div>
+    <span class="cd-footer-text">MODULE_SLOT_A // SYS:{sysId}</span>
+    <div class="cd-connector"></div>
+    <div class="cd-connector"></div>
+    <div class="cd-connector"></div>
+  </div>
+
+</div>
+
+<style>
+  /* ── Outer shell ───────────────────────────────────────────────── */
+  .cyberdeck-outer {
+    background: #0a0812;
+    border: 1px solid #2a2040;
+    box-shadow:
+      0 0 0 1px #1a1030,
+      0 0 30px rgba(45, 226, 230, 0.08),
+      0 30px 60px rgba(0,0,0,0.9);
+  }
+
+  /* ── Header ────────────────────────────────────────────────────── */
+  .cyberdeck-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 7px 14px;
+    background: #06040f;
+    border-bottom: 1px solid #2a2040;
+  }
+  .cyberdeck-header-left { display: flex; align-items: center; gap: 6px; }
+  .cyberdeck-header-right { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+
+  .cd-led {
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+  }
+  .cd-led-red    { background: #FD1D53; box-shadow: 0 0 5px #FD1D53; }
+  .cd-led-amber  { background: #F9C80E; box-shadow: 0 0 5px #F9C80E; }
+  .cd-led-green  { background: #2DE2E6; box-shadow: 0 0 5px #2DE2E6; animation: cd-led-pulse 2s ease-in-out infinite; }
+
+  .cd-module-label {
+    font-family: 'Space Grotesk', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    color: rgba(45,226,230,0.55);
+    text-transform: uppercase;
+    margin-left: 6px;
+  }
+
+  .cd-status-pill {
+    font-family: monospace;
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    padding: 2px 6px;
+    border: 1px solid rgba(253,29,83,0.4);
+    color: rgba(253,29,83,0.7);
+    text-transform: uppercase;
+  }
+  .cd-pill-cyan  { border-color: rgba(45,226,230,0.4); color: rgba(45,226,230,0.7); }
+  .cd-pill-active { border-color: rgba(249,200,14,0.4); color: rgba(249,200,14,0.7);
+    animation: cd-pill-flicker 3s steps(1) infinite; }
+
+  /* ── Main body split ───────────────────────────────────────────── */
+  .cyberdeck-body {
+    display: flex;
+    flex-direction: row;
+    min-height: 380px;
+    overflow: hidden;
+  }
+
+  /* ── Left screen panel ─────────────────────────────────────────── */
+  .cyberdeck-screen {
+    flex: 1 1 0;
+    min-width: 0;         /* prevents flex child from overflowing */
+    background: #241734;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #2a2040;
+  }
+
+  .cd-scanlines {
+    position: absolute; inset: 0;
+    pointer-events: none; z-index: 5;
+    background:
+      linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.25) 50%),
+      linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06));
+    background-size: 100% 4px, 3px 100%;
+    opacity: 0.4;
+  }
+
+  .cd-shimmer {
+    position: absolute; inset: 0;
+    pointer-events: none; z-index: 4;
+    background: linear-gradient(105deg, transparent 40%, rgba(45,226,230,0.04) 50%, transparent 60%);
+    background-size: 200% 100%;
+    animation: cd-shimmer-sweep 6s ease-in-out infinite;
+  }
+
+  .cd-screen-bar {
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    height: 24px;
+    background: rgba(0,0,0,0.5);
+    border-bottom: 1px solid rgba(0,0,0,0.6);
+    font-family: monospace;
+    font-size: 9px;
+    color: var(--theme-neon-cyan);
+    position: relative; z-index: 40;
+    flex-shrink: 0;
+  }
+
+  .cd-pulse-dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    background: var(--theme-neon-cyan);
+    animation: cd-led-pulse 1s steps(1) infinite;
+  }
+
+  .cd-screen-content {
+    flex: 1;
+    padding: 20px 24px;
+    font-family: 'Space Grotesk', monospace;
+    color: var(--theme-neon-cyan);
+    font-size: 0.875rem;
+    position: relative; z-index: 40;
+    overflow-y: auto;
+  }
+  .cd-screen-content::-webkit-scrollbar { width: 3px; }
+  .cd-screen-content::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+  .cd-screen-content::-webkit-scrollbar-thumb { background: var(--theme-neon-cyan); }
+
+  /* ── Right sidebar ─────────────────────────────────────────────── */
+  .cyberdeck-sidebar {
+    flex: 0 0 200px;       /* fixed 200px sidebar, no grow/shrink */
+    width: 200px;
+    background: #06040f;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #1a1030;
+    overflow: hidden;
+  }
+
+  .cd-sidebar-header {
+    font-family: monospace;
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    color: rgba(45,226,230,0.4);
+    padding: 8px 10px 6px;
+    border-bottom: 1px solid #1a1030;
+    flex-shrink: 0;
+  }
+
+  .cd-hex-stream {
+    flex: 1;
+    overflow: hidden;
+    padding: 6px 8px;
+    font-family: monospace;
+    font-size: 8px;
+    line-height: 1.6;
+    color: rgba(45,226,230,0.25);
+    word-break: break-all;
+    position: relative;
+  }
+  /* fade out at bottom */
+  .cd-hex-stream::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 40px;
+    background: linear-gradient(transparent, #06040f);
+    pointer-events: none;
+  }
+
+  .cd-sidebar-footer {
+    padding: 8px 10px;
+    border-top: 1px solid #1a1030;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+  .cd-sidebar-stat { display: flex; align-items: center; gap: 5px; }
+  .cd-stat-label { font-family: monospace; font-size: 7px; color: rgba(45,226,230,0.4); width: 26px; flex-shrink: 0; letter-spacing: 0.1em; }
+  .cd-stat-bar { flex: 1; height: 3px; background: rgba(255,255,255,0.06); }
+  .cd-stat-fill { display: block; height: 100%; background: var(--theme-neon-cyan); }
+  .cd-fill-red   { background: var(--theme-neon-red); }
+  .cd-fill-amber { background: var(--theme-accent); }
+
+  /* ── Footer connector rail ─────────────────────────────────────── */
+  .cyberdeck-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: #06040f;
+    border-top: 1px solid #2a2040;
+  }
+  .cd-connector {
+    width: 18px; height: 10px;
+    background: #111;
+    border: 1px solid #2a2040;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.8);
+  }
+  .cd-footer-text {
+    font-family: monospace;
+    font-size: 7px;
+    color: rgba(45,226,230,0.2);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0 10px;
+  }
+
+  /* ── Keyframes ─────────────────────────────────────────────────── */
+  @keyframes cd-led-pulse {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0.2; }
+  }
+  @keyframes cd-pill-flicker {
+    0%, 89% { opacity: 1; }
+    90%, 91% { opacity: 0.1; }
+    92%, 100% { opacity: 1; }
+  }
+  @keyframes cd-shimmer-sweep {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* ── Responsive: collapse sidebar on small screens ─────────────── */
+  @media (max-width: 640px) {
+    .cyberdeck-sidebar { display: none; }
+    .cyberdeck-body { min-height: 320px; }
+  }
+</style>
+
+<script>
+  // ── Hex/Binary stream generator ────────────────────────────────────
+  const streamEl = document.getElementById('crt-hex-stream');
+  if (streamEl) {
+    const chars = '0123456789ABCDEF ';
+    let content = '';
+    // pre-fill ~400 chars
+    for (let i = 0; i < 400; i++) {
+      content += chars[Math.floor(Math.random() * chars.length)];
+      if (i % 24 === 23) content += '\n';
+    }
+    streamEl.textContent = content;
+
+    // append new chars periodically and trim old
+    setInterval(() => {
+      const newChars = Array.from({ length: 8 }, () =>
+        chars[Math.floor(Math.random() * chars.length)]
+      ).join('') + '\n';
+      streamEl.textContent = (streamEl.textContent ?? '') + newChars;
+      // keep under 600 chars
+      if ((streamEl.textContent?.length ?? 0) > 600) {
+        streamEl.textContent = streamEl.textContent?.slice(-500) ?? '';
+      }
+    }, 200);
+  }
+</script>

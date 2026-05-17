@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@import "./theme.css";
+@import "./base.css";
+
+@layer utilities {
+  /* Reusable color gradients from old project */
+  .bg-gradient-retrowave {
+    background: linear-gradient(0deg, rgba(5,28,44,1) 0%, rgba(63,42,86,1) 100%);
+  }
+
+  .bg-gradient-city-light {
+    background: linear-gradient(0deg, rgba(5,28,44,1) 0%, rgba(52, 22, 88, 0) 100%); 
+  }
+}
+
+/* ── HologramTerminal slotted content ────────────────────────────────────
+   These live in the caller's scope so Astro component-scoped CSS can't
+   reach them. Kept here as global styles instead.
+   ────────────────────────────────────────────────────────────────────── */
+.htl-skills {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+
+.htl-skill-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding-left: var(--indent, 0px);
+  opacity: 0;
+  animation: htl-row-in 0.5s ease forwards;
+  animation-delay: calc(var(--delay, 0s) + 0.3s);
+}
+
+.htl-prompt {
+  font-family: 'Space Grotesk', monospace;
+  font-size: clamp(16px, 2.5vw, 28px);
+  color: rgba(45, 226, 230, 0.5);
+  line-height: 1;
+  flex-shrink: 0;
+  text-shadow: 0 0 8px rgba(45, 226, 230, 0.6);
+}
+
+.htl-skill {
+  font-family: 'Space Grotesk', monospace;
+  font-size: clamp(28px, 5.5vw, 72px);
+  font-weight: 700;
+  color: rgba(170, 170, 170, 0.90);
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  line-height: 1.05;
+  text-shadow:
+    0 0 8px rgba(45, 226, 230, 0.35),
+    0 0 20px rgba(45, 226, 230, 0.15),
+    0 0 40px rgba(45, 226, 230, 0.08);
+  transition: text-shadow 0.3s ease, color 0.3s ease;
+}
+
+.htl-skill-row:hover .htl-skill {
+  color: var(--theme-neon-cyan);
+  text-shadow:
+    0 0 10px rgba(45, 226, 230, 0.7),
+    0 0 30px rgba(45, 226, 230, 0.4),
+    0 0 60px rgba(45, 226, 230, 0.2);
+}
+
+.htl-skill-row:hover .htl-prompt {
+  color: var(--theme-neon-cyan);
+}
+
+@keyframes htl-row-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}

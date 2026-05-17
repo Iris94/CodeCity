@@ -1,0 +1,209 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+import HologramTerminal from '../components/HologramTerminal.astro';
+import GlitchText from '../components/GlitchText.astro';
+import CubeTerminal from '../components/CubeTerminal.astro';
+import CrtProjectTerminal from '../components/CrtProjectTerminal.astro';
+import CompactProjectTerminal from '../components/CompactProjectTerminal.astro';
+
+const techStack = [
+  { name: 'HTML', type: 'text', text: 'HTML' },
+  { name: 'CSS', type: 'text', text: 'CSS' },
+  { name: 'JavaScript', type: 'text', text: 'JavaScript' },
+  { name: 'TypeScript', type: 'text', text: 'TypeScript' },
+  { name: 'Lit', type: 'text', text: 'Lit' },
+  { name: 'Svelte', type: 'text', text: 'Svelte' },
+  { name: 'Astro', type: 'text', text: 'Astro' },
+  { name: 'React', type: 'text', text: 'React' },
+  { name: 'Angular', type: 'text', text: 'Angular' },
+  { name: 'Tailwind', type: 'text', text: 'Tailwind' },
+  { name: '.NET', type: 'text', text: '.NET' },
+  { name: 'C#', type: 'text', text: 'C#' },
+  { name: 'Figma', type: 'text', text: 'Figma' },
+  { name: 'Umbraco', type: 'text', text: 'Umbraco' },
+  { name: 'AI', type: 'text', text: '[AI]' }
+];
+---
+
+<Layout>
+	<!-- Fixed Navigation (outside main flow) -->
+	<Navigation />
+
+	<main class="w-full min-h-screen bg-(--theme-midnight-black) pb-[150px]">
+
+		<!-- ══════════════════════════════════════════════════════════════
+		     SECTION 1: Landing Hero Video + Hologram
+		     ══════════════════════════════════════════════════════════════ -->
+		<section class="relative w-full overflow-hidden bg-(--theme-midnight-black)" style="height: 85vh; z-index: 20;">
+			<!-- Background Video -->
+			<video
+				autoplay
+				loop
+				muted
+				playsinline
+				class="hero-video absolute top-0 left-0 w-full h-full object-cover scale-[1.15] origin-top z-0 opacity-40 mix-blend-screen"
+			>
+				<source src="/cityRain.mp4" type="video/mp4" />
+			</video>
+
+			<!-- Content Container -->
+			<div class="relative z-20 w-full lg:w-10/12 max-w-270 mx-auto h-full flex flex-col px-6 lg:px-0">
+				<div class="grow flex flex-col justify-center">
+					<HologramTerminal hologramTitle="Case Studies" hologramLabel="// cases.init()">
+						<h2 class="text-(--theme-neon-red) text-3xl sm:text-4xl md:text-5xl font-mono uppercase tracking-widest font-black">
+							Case Study
+						</h2>
+					</HologramTerminal>
+				</div>
+			</div>
+		</section>
+
+		<!-- ══════════════════════════════════════════════════════════════
+		     SECTION 2: Tech Stack
+		     ══════════════════════════════════════════════════════════════ -->
+		<section class="w-full py-16 sm:py-24 relative bg-(--theme-midnight-black)">
+			<div class="w-full lg:w-10/12 max-w-270 mx-auto px-6 lg:px-0 relative z-10">
+
+				<!-- Section label -->
+				<span class="block text-[10px] font-mono text-(--theme-neon-red) tracking-widest uppercase mb-3 opacity-70">
+					// tech - stack _001
+				</span>
+
+				<!-- Bordered block -->
+				<div class="border-t border-(--theme-neon-red) pt-14">
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-start">
+
+						<!-- Left: Loops through Tech Stack Cube Holograms -->
+						<div class="grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));">
+							{techStack.map((tech) => (
+								<CubeTerminal label={tech.name}>
+									<span class="font-mono font-black text-sm select-none text-(--theme-neon-red)">
+										{tech.text}
+									</span>
+								</CubeTerminal>
+							))}
+						</div>
+
+						<!-- Right: Tech Stack info -->
+						<div class="flex flex-col justify-start h-full pt-4">
+							<GlitchText
+								tag="h2"
+								text="Tech Stack"
+								delay={1500}
+								class="text-4xl sm:text-5xl md:text-6xl text-(--theme-text-base) mb-8 text-left tracking-widest uppercase font-bold font-mono"
+							/>
+							<div class="text-(--theme-text-base) text-left text-lg leading-relaxed font-mono">
+								<p>
+									My core toolkit and the technologies I work with daily. I’m highly adaptive and love picking up new tech based on project needs. While frontend development and Umbraco UI architecture are my primary focus, I also have a huge passion for building browser games and am currently diving into Unity
+								</p>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</section>
+
+		<!-- ══════════════════════════════════════════════════════════════
+		     SECTION 3: Project List
+		     ══════════════════════════════════════════════════════════════ -->
+		<section class="w-full py-12 sm:py-16 relative bg-(--theme-midnight-black)">
+			<div class="w-full lg:w-10/12 max-w-270 mx-auto px-6 lg:px-0 relative z-10">
+
+				<!-- Section label -->
+				<span class="block text-[10px] font-mono text-(--theme-neon-red) tracking-widest uppercase mb-3 opacity-70">
+					// project_list 002
+				</span>
+
+				<!-- Bordered block -->
+				<div class="border-t border-(--theme-neon-red) pt-14 space-y-16">
+
+					<!-- Freelance Profile -->
+					<div>
+						<HologramTerminal hologramTitle="Freelance Status" hologramLabel="// current_status()">
+							<p class="text-(--theme-text-base) text-left text-lg leading-relaxed font-mono py-4 px-4 sm:px-8">
+								I am currently working as a freelance software engineer specializing in Umbraco systems. Over the years, I’ve contributed to large-scale web applications for clients like 
+								<a href="https://www.jesperhus.dk/" target="_blank" rel="noopener noreferrer" class="text-(--theme-accent) hover:underline relative z-50">Jesperhus</a>, 
+								<a href="https://www.maus.ba/" target="_blank" rel="noopener noreferrer" class="text-(--theme-accent) hover:underline relative z-50">Maus</a> and 
+								<a href="https://www.inetdesign.dk/" target="_blank" rel="noopener noreferrer" class="text-(--theme-accent) hover:underline relative z-50">Inet</a>. 
+								I have extensive experience collaborating with international companies, with a strong focus on the Scandinavian market.
+							</p>
+						</HologramTerminal>
+					</div>
+
+					<!-- Project 1: Qiko -->
+					<div>
+						<div class="hidden sm:block">
+							<CrtProjectTerminal 
+								title="Qiko"
+								media="/qiko.png"
+								text="A secure, browser-to-browser chat extension currently in active development. Built for direct, private peer-to-peer communication. More details coming soon."
+							/>
+						</div>
+						<div class="block sm:hidden">
+							<CompactProjectTerminal 
+								title="Qiko"
+								media="/qiko.png"
+								text="A secure, browser-to-browser chat extension currently in active development. Built for direct, private peer-to-peer communication. More details coming soon."
+							/>
+						</div>
+					</div>
+
+					<!-- Project 2: Tetris -->
+					<div>
+						<div class="hidden sm:block">
+							<CrtProjectTerminal 
+								title="Tetris"
+								media="/tetris.gif"
+								href="https://iris94.github.io/tetris-gameboy-edition/"
+								text="A vanilla JavaScript Tetris clone with custom features to put my own spin on the classic game. Built entirely from scratch without AI assistance, this project was my playground for sharpening core JavaScript skills and raw logical problem-solving."
+							/>
+						</div>
+						<div class="block sm:hidden">
+							<CompactProjectTerminal 
+								title="Tetris"
+								media="/tetris.gif"
+								href="https://iris94.github.io/tetris-gameboy-edition/"
+								text="A vanilla JavaScript Tetris clone with custom features to put my own spin on the classic game. Built entirely from scratch without AI assistance, this project was my playground for sharpening core JavaScript skills and raw logical problem-solving."
+							/>
+						</div>
+					</div>
+
+					<!-- Project 3: Empire Shield -->
+					<div>
+						<div class="hidden sm:block">
+							<CrtProjectTerminal 
+								title="Empire Shield"
+								media="/empire.gif"
+								href="https://empire-cwwxxi9p7-iris94.vercel.app/"
+								text="A classic, fully playable browser RPG. This was the first major project I ever built back when I was teaching myself how to code. I still keep it here as a personal reminder of what pure persistence can achieve when you're starting completely from scratch."
+							/>
+						</div>
+						<div class="block sm:hidden">
+							<CompactProjectTerminal 
+								title="Empire Shield"
+								media="/empire.gif"
+								href="https://empire-cwwxxi9p7-iris94.vercel.app/"
+								text="A classic, fully playable browser RPG. This was the first major project I ever built back when I was teaching myself how to code. I still keep it here as a personal reminder of what pure persistence can achieve when you're starting completely from scratch."
+							/>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</section>
+
+	</main>
+</Layout>
+
+<style>
+	/* Portrait video crop on mobile */
+	@media (max-width: 640px) {
+		.hero-video {
+			object-position: center center;
+			transform: none;
+		}
+	}
+</style>

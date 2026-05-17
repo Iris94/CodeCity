@@ -1,0 +1,114 @@
+---
+// HexRain overlay - lightweight canvas-based floating hex codes
+---
+
+<canvas id="hex-rain-canvas" class="fixed inset-0 w-full h-full pointer-events-none" style="z-index: 1;"></canvas>
+
+<script>
+	const canvas = document.getElementById('hex-rain-canvas') as HTMLCanvasElement;
+	const ctx = canvas.getContext('2d')!;
+
+	const COLOR = '#FD1D53'; // --theme-neon-red
+
+	type Particle = {
+		x: number;
+		y: number;
+		text: string;
+		alpha: number;
+		speed: number;
+		phase: 'fadein' | 'hold' | 'fadeout';
+		timer: number;
+	};
+
+	const particles: Particle[] = [];
+	const MAX_PARTICLES = 18;
+	const HOLD_DURATION = 5000; // 5 seconds visible
+	const FADE_SPEED = 0.012;
+
+	function randomHex(): string {
+		const r = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
+		const g = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
+		const b = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
+		// 50% chance of short format
+		if (Math.random() > 0.5) {
+			return `#${r[0]}${g[0]}${b[0]}`;
+		}
+		return `#${r}${g}${b}`;
+	}
+
+	function spawnParticle(): Particle {
+		return {
+			x: Math.random() * canvas.width,
+			y: Math.random() * canvas.height, // full viewport height
+			text: randomHex(),
+			alpha: 0,
+			speed: 0.2 + Math.random() * 0.3,
+			phase: 'fadein',
+			timer: 0,
+		};
+	}
+
+	function resize() {
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+	}
+	resize();
+	window.addEventListener('resize', resize);
+
+	// Stagger initial spawns
+	for (let i = 0; i < MAX_PARTICLES; i++) {
+		setTimeout(() => {
+			const p = spawnParticle();
+			p.alpha = Math.random(); // random starting alpha for variety
+			p.phase = 'hold';
+			p.timer = Math.random() * HOLD_DURATION;
+			particles.push(p);
+		}, Math.random() * 8000);
+	}
+
+	let lastTime = 0;
+	function loop(time: number) {
+		const dt = time - lastTime;
+		lastTime = time;
+
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.font = '11px monospace';
+
+		for (let i = particles.length - 1; i >= 0; i--) {
+			const p = particles[i];
+
+			// Phase transitions
+			if (p.phase === 'fadein') {
+				p.alpha += FADE_SPEED;
+				if (p.alpha >= 0.7) {
+					p.alpha = 0.7;
+					p.phase = 'hold';
+					p.timer = 0;
+				}
+			} else if (p.phase === 'hold') {
+				p.timer += dt;
+				p.y += p.speed; // gentle drift downward
+				if (p.timer >= HOLD_DURATION) {
+					p.phase = 'fadeout';
+				}
+			} else if (p.phase === 'fadeout') {
+				p.alpha -= FADE_SPEED;
+				p.y += p.speed;
+				if (p.alpha <= 0) {
+					// Respawn
+					particles[i] = spawnParticle();
+					continue;
+				}
+			}
+
+			ctx.globalAlpha = p.alpha;
+			ctx.fillStyle = COLOR;
+			ctx.fillText(p.text, p.x, p.y);
+		}
+
+		ctx.globalAlpha = 1;
+		requestAnimationFrame(loop);
+	}
+
+	requestAnimationFrame(loop);
+</script>

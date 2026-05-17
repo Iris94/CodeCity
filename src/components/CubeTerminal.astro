@@ -1,0 +1,174 @@
+---
+// CubeTerminal — small square terminal block, can render as <a>, <button>, or <div>
+// Props:
+//   as       - 'a' | 'button' | 'div'  (default: 'div')
+//   href     - URL, used when as='a'
+//   label    - accessible label / tooltip
+//   id       - optional DOM id
+
+interface Props {
+  as?:   'a' | 'button' | 'div';
+  href?: string;
+  label?: string;
+  id?:   string;
+  class?: string;
+  largeCube?: boolean;
+}
+
+const {
+  as:    tag  = 'div',
+  href,
+  label,
+  id,
+  class: extraClass = '',
+  largeCube = false,
+} = Astro.props;
+
+const baseClass = `cube-terminal ${largeCube ? 'is-large' : ''} ${extraClass}`.trim();
+const isInteractive = tag === 'a' || tag === 'button';
+---
+
+{tag === 'a' && (
+  <a
+    id={id}
+    href={href}
+    aria-label={label}
+    target="_blank"
+    rel="noopener noreferrer"
+    class={baseClass}
+  >
+    <!-- Corner marks -->
+    <span class="ct-corner ct-tl"></span>
+    <span class="ct-corner ct-tr"></span>
+    <span class="ct-corner ct-bl"></span>
+    <span class="ct-corner ct-br"></span>
+    <!-- Scanlines -->
+    <span class="ct-scanlines"></span>
+    <!-- Content -->
+    <span class="ct-inner">
+      <slot />
+    </span>
+  </a>
+)}
+
+{tag === 'button' && (
+  <button
+    id={id}
+    aria-label={label}
+    class={baseClass}
+  >
+    <span class="ct-corner ct-tl"></span>
+    <span class="ct-corner ct-tr"></span>
+    <span class="ct-corner ct-bl"></span>
+    <span class="ct-corner ct-br"></span>
+    <span class="ct-scanlines"></span>
+    <span class="ct-inner">
+      <slot />
+    </span>
+  </button>
+)}
+
+{tag === 'div' && (
+  <div
+    id={id}
+    aria-label={label}
+    class={baseClass}
+  >
+    <span class="ct-corner ct-tl"></span>
+    <span class="ct-corner ct-tr"></span>
+    <span class="ct-corner ct-bl"></span>
+    <span class="ct-corner ct-br"></span>
+    <span class="ct-scanlines"></span>
+    <span class="ct-inner">
+      <slot />
+    </span>
+  </div>
+)}
+
+<style>
+  /* ── Base cube block ────────────────────────────────────────────── */
+  .cube-terminal {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: #0a0812;
+    border: 1px solid rgba(45, 226, 230, 0.30);
+    box-shadow:
+      0 0 0 1px #1a1030,
+      0 0 10px rgba(45, 226, 230, 0.08),
+      inset 0 0 20px rgba(45, 226, 230, 0.04);
+    cursor: default;
+    text-decoration: none;
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .cube-terminal.is-large {
+    width: 100%;
+    min-width: 150px;
+    height: 150px;
+  }
+
+  .cube-terminal.is-large :global(svg) {
+    width: 48px !important;
+    height: 48px !important;
+  }
+
+  /* Interactive states (a / button) */
+  a.cube-terminal,
+  button.cube-terminal {
+    cursor: pointer;
+  }
+  a.cube-terminal:hover,
+  button.cube-terminal:hover {
+    border-color: rgba(253, 29, 83, 0.7);
+    box-shadow:
+      0 0 0 1px #1a1030,
+      0 0 16px rgba(253, 29, 83, 0.30),
+      inset 0 0 24px rgba(253, 29, 83, 0.06);
+  }
+  a.cube-terminal:hover .ct-corner,
+  button.cube-terminal:hover .ct-corner {
+    border-color: var(--theme-neon-red);
+  }
+
+  /* ── Corner brackets ────────────────────────────────────────────── */
+  .ct-corner {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-color: rgba(45, 226, 230, 0.5);
+    border-style: solid;
+    transition: border-color 0.2s ease;
+    z-index: 2;
+  }
+  .ct-tl { top: 3px;  left: 3px;  border-width: 1px 0 0 1px; }
+  .ct-tr { top: 3px;  right: 3px; border-width: 1px 1px 0 0; }
+  .ct-bl { bottom: 3px; left: 3px;  border-width: 0 0 1px 1px; }
+  .ct-br { bottom: 3px; right: 3px; border-width: 0 1px 1px 0; }
+
+  /* ── Scanlines ──────────────────────────────────────────────────── */
+  .ct-scanlines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background:
+      linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.20) 50%);
+    background-size: 100% 3px;
+    opacity: 0.35;
+  }
+
+  /* ── Inner content centred ──────────────────────────────────────── */
+  .ct-inner {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+</style>

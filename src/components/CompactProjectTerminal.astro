@@ -1,0 +1,190 @@
+---
+// CompactProjectTerminal — Simplified vertical datapad layout for mobile project listings
+interface Props {
+  media: string;
+  title: string;
+  text: string;
+  href?: string;
+}
+
+const { media, title, text, href } = Astro.props;
+
+const Tag = href ? 'a' : 'div';
+const wrapperClass = `cdpad-outer relative w-full max-w-sm mx-auto mb-10 block ${href ? 'hover:scale-[1.02] transition-transform duration-300 cursor-pointer' : ''}`;
+const extraProps = href ? { href, target: "_blank", rel: "noopener noreferrer" } : {};
+---
+
+<Tag class={wrapperClass} {...extraProps}>
+
+  <!-- ── Top edge: camera strip + LEDs ──────────────────────────── -->
+  <div class="cdpad-top-edge">
+    <span class="cdp-led cdp-led-red"></span>
+    <span class="cdp-led cdp-led-amber"></span>
+    <div class="cdpad-camera-slot"></div>
+    <span class="cdp-led cdp-led-green"></span>
+    <span class="cdp-label">{title.toUpperCase()}</span>
+  </div>
+
+  <!-- ── Module label strip ─────────────────────────────────────── -->
+  <div class="cdpad-label-strip">
+    <span>CYBERDECK // PROJECT</span>
+    <span class="cdp-status-active">STATUS: ONLINE</span>
+  </div>
+
+  <!-- ── Screen bezel ───────────────────────────────────────────── -->
+  <div class="cdpad-bezel flex flex-col">
+
+    <!-- Scanlines -->
+    <div class="cdp-scanlines"></div>
+
+    <!-- Status bar -->
+    <div class="cdpad-screen-bar">
+      <span class="opacity-60 text-[9px]">{title.toLowerCase()}_process :~$</span>
+      <span class="flex items-center gap-1 ml-auto">
+        <span class="cdp-pulse-dot"></span>
+      </span>
+    </div>
+
+    <!-- Content slot -->
+    <div class="cdpad-content flex flex-col relative z-40">
+      
+      <!-- Top Image -->
+      <div class="w-full flex justify-center mb-4 p-2 bg-[#0e0b1a] border-b border-[#2a2040]">
+        <img src={media} alt={title} class="max-h-[180px] object-contain rounded-sm border border-[rgba(45,226,230,0.3)] shadow-[0_0_10px_rgba(45,226,230,0.1)]" />
+      </div>
+
+      <!-- Text content -->
+      <div class="p-4 font-mono text-(--theme-text-base) text-sm flex flex-col">
+        <h3 class="text-(--theme-accent) font-bold uppercase tracking-widest text-xl mb-3">{title}</h3>
+        <p class="leading-relaxed opacity-90">{text}</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ── Bottom: connector ports ────────────────────────────────── -->
+  <div class="cdpad-footer">
+    <div class="cdp-connector"></div>
+    <div class="cdp-connector cdp-conn-wide"></div>
+    <div class="cdp-connector"></div>
+  </div>
+
+</Tag>
+
+<style>
+  /* ── Outer shell ───────────────────────────────────────────────── */
+  .cdpad-outer {
+    background: #0a0812;
+    border: 1px solid #2a2040;
+    box-shadow:
+      0 0 0 1px #1a1030,
+      0 0 20px rgba(45,226,230,0.07),
+      0 10px 20px rgba(0,0,0,0.6);
+  }
+
+  /* ── Top edge ──────────────────────────────────────────────────── */
+  .cdpad-top-edge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    background: #06040f;
+    border-bottom: 1px solid #2a2040;
+  }
+  .cdp-led {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .cdp-led-red   { background: #FD1D53; box-shadow: 0 0 4px #FD1D53; }
+  .cdp-led-amber { background: #F9C80E; box-shadow: 0 0 4px #F9C80E; }
+  .cdp-led-green { background: #2DE2E6; box-shadow: 0 0 4px #2DE2E6; }
+  .cdpad-camera-slot {
+    flex: 1;
+    height: 3px;
+    background: #111;
+    border: 1px solid #1e1e2e;
+    border-radius: 2px;
+  }
+  .cdp-label {
+    font-family: monospace;
+    font-size: 7px;
+    color: rgba(45,226,230,0.4);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* ── Label strip ───────────────────────────────────────────────── */
+  .cdpad-label-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 12px;
+    background: #080614;
+    border-bottom: 1px solid #1a1030;
+    font-family: monospace;
+    font-size: 7px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(45,226,230,0.3);
+  }
+  .cdp-status-active {
+    color: rgba(249,200,14,0.6);
+  }
+
+  /* ── Screen bezel ──────────────────────────────────────────────── */
+  .cdpad-bezel {
+    background: #241734;
+    position: relative;
+    overflow: hidden;
+    min-height: 250px;
+  }
+  .cdp-scanlines {
+    position: absolute; inset: 0;
+    pointer-events: none; z-index: 5;
+    background:
+      linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.25) 50%),
+      linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06));
+    background-size: 100% 4px, 3px 100%;
+    opacity: 0.4;
+  }
+
+  /* ── Screen status bar ─────────────────────────────────────────── */
+  .cdpad-screen-bar {
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    height: 22px;
+    background: rgba(0,0,0,0.5);
+    border-bottom: 1px solid rgba(0,0,0,0.6);
+    font-family: monospace;
+    color: var(--theme-neon-cyan);
+    position: relative; z-index: 40;
+    flex-shrink: 0;
+  }
+  .cdp-pulse-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--theme-neon-cyan);
+  }
+
+  /* ── Footer ports ──────────────────────────────────────────────── */
+  .cdpad-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: #06040f;
+    border-top: 1px solid #2a2040;
+  }
+  .cdp-connector {
+    width: 14px; height: 8px;
+    background: #111;
+    border: 1px solid #2a2040;
+    border-radius: 1px;
+  }
+  .cdp-conn-wide { width: 28px; }
+</style>

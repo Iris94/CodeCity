@@ -1,0 +1,41 @@
+@layer base {
+  body {
+    font-family: var(--font-space);
+    background-color: var(--theme-midnight-black);
+    color: var(--theme-text-base);
+    letter-spacing: normal;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-space);
+    font-weight: 700;
+    color: var(--theme-text-base);
+  }
+
+  @media only screen and (max-width: 990px) {
+    body {
+      font-size: 14px;
+    }
+  }
+
+  @media only screen and (max-width: 690px) {
+    body {
+      font-size: 12px;
+    }
+  }
+
+  .clip-corners {
+    clip-path: polygon(
+        0% 0%,
+        calc(100% - 35px) 0%,
+        100% 35px,
+        100% 100%,
+        35px 100%,
+        0% calc(100% - 35px)
+    );
+  }
+}

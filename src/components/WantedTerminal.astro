@@ -1,0 +1,108 @@
+---
+// WantedTerminal - Encased Mainframe Panel with vertical "POLICE" sidebar
+// Layout: [20% metal sidebar | 80% screen content]
+interface Props {
+	rotate?: boolean;
+	sysId?: string;
+	label?: string;
+}
+
+const { rotate = false, sysId = "SYS_ID: IRIS_94", label = "POLICE" } = Astro.props;
+---
+
+<div
+	class="wanted-terminal-wrapper relative w-full max-w-135 mx-auto flex transition-transform duration-100 ease-out bg-[#141020] border border-[#2A2A3A] shadow-[0_24px_60px_rgba(0,0,0,0.95)]"
+	data-rotate={rotate ? "true" : "false"}
+>
+	<!-- ── LEFT: Metal Industrial Sidebar (20%) ───────────────────── -->
+	<div class="relative flex-none w-[20%] bg-[#0e0b1a] border-r border-[#2A2A3A] flex flex-col items-center justify-between py-6 overflow-hidden">
+
+		<!-- Rivet top -->
+		<div class="absolute top-3 left-3 w-2 h-2 bg-[#1e1e2e] border border-[#3a3a4a]"></div>
+		<div class="absolute top-3 right-3 w-2 h-2 bg-[#1e1e2e] border border-[#3a3a4a]"></div>
+
+		<!-- Vertical stacked label -->
+		<div class="grow flex flex-col items-center justify-center gap-0 select-none">
+			<!-- Each letter of POLICE stacked -->
+			<div class="flex flex-col items-center leading-none">
+				{['P','O','L','I','C','E'].map((letter) => (
+					<span class="text-(--theme-neon-red) font-mono font-black text-sm sm:text-base opacity-90 leading-tight">
+						{letter}
+					</span>
+				))}
+			</div>
+			<!-- Horizontal "wanted list" below -->
+			<div class="flex flex-col items-center mt-3 gap-0.5">
+				<span class="text-(--theme-text-base) font-mono text-[7px] sm:text-[8px] uppercase tracking-wider opacity-60">wanted</span>
+				<span class="text-(--theme-text-base) font-mono text-[7px] sm:text-[8px] uppercase tracking-wider opacity-60">list</span>
+			</div>
+		</div>
+
+		<!-- Decorative scan lines on sidebar -->
+		<div class="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(253,29,83,0)_50%,rgba(253,29,83,0.04)_50%)] bg-size-[100%_4px] opacity-60"></div>
+
+		<!-- Rivet bottom -->
+		<div class="absolute bottom-3 left-3 w-2 h-2 bg-[#1e1e2e] border border-[#3a3a4a]"></div>
+		<div class="absolute bottom-3 right-3 w-2 h-2 bg-[#1e1e2e] border border-[#3a3a4a]"></div>
+
+		<!-- Side accent line -->
+		<div class="absolute right-0 top-1/4 bottom-1/4 w-px bg-(--theme-neon-red) opacity-20"></div>
+	</div>
+
+	<!-- ── RIGHT: Screen Panel (80%) ─────────────────────────────── -->
+	<div class="flex-1 flex flex-col bg-[#050508]">
+
+		<!-- Screen bezel inner -->
+		<div class="flex-1 bg-(--theme-purple-shuttle) relative flex flex-col border-l border-[#111]">
+
+			<!-- Scanlines overlay -->
+			<div class="absolute inset-0 pointer-events-none z-50 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-size-[100%_4px,3px_100%] opacity-40"></div>
+
+			<!-- Top status bar -->
+			<div class="w-full h-6 bg-black/50 flex justify-between items-center px-4 text-[9px] text-(--theme-neon-cyan) font-mono z-40 border-b border-black/60 flex-none">
+				<span>{sysId}</span>
+				<span class="flex items-center gap-1.5">
+					front-end /&gt; <span class="w-2 h-2 bg-(--theme-neon-cyan) animate-pulse ml-1"></span>
+				</span>
+			</div>
+
+			<!-- Content area -->
+			<div class="grow z-40 p-5 flex flex-col overflow-y-auto wt-scrollbar">
+				<slot />
+			</div>
+
+		</div>
+	</div>
+
+	<!-- Corner accent marks -->
+	<div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-(--theme-neon-red) opacity-60"></div>
+	<div class="absolute bottom-0 left-[20%] w-4 h-4 border-b-2 border-l-2 border-(--theme-neon-red) opacity-60"></div>
+</div>
+
+<style>
+	.wt-scrollbar::-webkit-scrollbar { width: 3px; }
+	.wt-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
+	.wt-scrollbar::-webkit-scrollbar-thumb { background: var(--theme-neon-red); }
+</style>
+
+<script>
+	const panels = document.querySelectorAll('.wanted-terminal-wrapper[data-rotate="true"]');
+
+	panels.forEach((panel) => {
+		const el = panel as HTMLElement;
+		el.addEventListener('mousemove', (e) => {
+			const ev = e as MouseEvent;
+			const rect = el.getBoundingClientRect();
+			const rotateX = ((ev.clientY - rect.top - rect.height / 2) / (rect.height / 2)) * -4;
+			const rotateY = ((ev.clientX - rect.left - rect.width / 2) / (rect.width / 2)) * 4;
+			el.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+		});
+		el.addEventListener('mouseleave', () => {
+			el.style.transition = 'transform 0.5s ease-out';
+			el.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg)';
+		});
+		el.addEventListener('mouseenter', () => {
+			el.style.transition = 'transform 0.1s ease-out';
+		});
+	});
+</script>

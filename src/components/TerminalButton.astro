@@ -1,0 +1,62 @@
+---
+// TerminalButton - Reusable cyberpunk terminal-style button
+// Props:
+//   label    - text shown inside [ label ] brackets
+//   href     - optional navigation URL; if set renders an <a>, otherwise a <button>
+//   id       - optional DOM id for JS targeting
+//   type     - button type attribute (default "button"); ignored when href is set
+
+interface Props {
+  label: string;
+  href?:  string;
+  id?:    string;
+  type?:  'button' | 'submit' | 'reset';
+  class?: string;
+}
+
+const {
+  label,
+  href,
+  id,
+  type  = 'button',
+  class: extraClass = '',
+} = Astro.props;
+
+const baseClass = `terminal-btn ${extraClass}`.trim();
+---
+
+{href ? (
+  <a id={id} href={href} class={baseClass}>[ {label} ]</a>
+) : (
+  <button id={id} type={type} class={baseClass}>[ {label} ]</button>
+)}
+
+<style>
+  .terminal-btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: var(--theme-purple-abyss);
+    border: 1px solid var(--theme-blue-indigo);
+    color: var(--theme-text-base);
+    font-family: 'Space Grotesk', monospace;
+    font-weight: 700;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .terminal-btn:hover {
+    background: var(--theme-neon-cyan);
+    color: #000;
+    border-color: var(--theme-neon-cyan);
+    box-shadow: 0 0 12px rgba(45, 226, 230, 0.5);
+  }
+
+  .terminal-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+</style>

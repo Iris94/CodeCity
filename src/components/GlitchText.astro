@@ -1,0 +1,63 @@
+---
+interface Props {
+	tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span';
+	text: string;
+	delay?: number; // ms delay before animation starts after visible (default 2500)
+	class?: string;
+}
+
+const { tag = 'span', text, delay = 2500, class: className = '' } = Astro.props;
+const Tag = tag;
+const id = `glitch-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<Tag
+	id={id}
+	data-text={text}
+	data-delay={delay}
+	class={`glitch-text ${className}`}
+>
+	{text}
+</Tag>
+
+<script>
+	const elements = document.querySelectorAll<HTMLElement>('.glitch-text');
+
+	elements.forEach((el) => {
+		const finalWord = el.getAttribute('data-text') || '';
+		const delayMs = parseInt(el.getAttribute('data-delay') || '2500', 10);
+		const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
+		let decoded = false;
+
+		const observer = new IntersectionObserver((entries) => {
+			if (entries[0].isIntersecting && !decoded) {
+				decoded = true;
+				observer.disconnect();
+
+				// Wait delay before starting
+				setTimeout(() => {
+					let iterations = 0;
+
+					const interval = setInterval(() => {
+						el.innerText = finalWord
+							.split('')
+							.map((_, index) => {
+								if (index < iterations) return finalWord[index];
+								return letters[Math.floor(Math.random() * letters.length)];
+							})
+							.join('');
+
+						if (iterations >= finalWord.length) {
+							el.innerText = finalWord;
+							clearInterval(interval);
+						}
+
+						iterations += 1 / 3;
+					}, 50);
+				}, delayMs);
+			}
+		});
+
+		observer.observe(el);
+	});
+</script>

@@ -1,0 +1,194 @@
+---
+// CrtProjectTerminal — Simplified CRT layout for desktop project listings
+interface Props {
+  media: string;
+  title: string;
+  text: string;
+  href?: string;
+}
+
+const { media, title, text, href } = Astro.props;
+
+const Tag = href ? 'a' : 'div';
+const wrapperClass = `cyberdeck-outer relative w-full max-w-[1100px] mx-auto mb-10 block ${href ? 'hover:scale-[1.02] transition-transform duration-300 cursor-pointer' : ''}`;
+const extraProps = href ? { href, target: "_blank", rel: "noopener noreferrer" } : {};
+---
+
+<Tag class={wrapperClass} {...extraProps}>
+
+  <!-- ── Top bar: module header ──────────────────────────────────── -->
+  <div class="cyberdeck-header">
+    <div class="cyberdeck-header-left">
+      <span class="cd-led cd-led-red"></span>
+      <span class="cd-led cd-led-amber"></span>
+      <span class="cd-led cd-led-green"></span>
+      <span class="cd-module-label">CYBERDECK MODULE // {title.toUpperCase()}</span>
+    </div>
+    <div class="cyberdeck-header-right">
+      <span class="cd-status-pill cd-pill-cyan">CLEARANCE: IRIS</span>
+      <span class="cd-status-pill cd-pill-active">STATUS: ONLINE</span>
+    </div>
+  </div>
+
+  <!-- ── Main body ────────────────────────────────────────────────── -->
+  <div class="cyberdeck-body flex flex-row min-h-[300px] overflow-hidden">
+
+    <!-- Left: Image content (40%) -->
+    <div class="cyberdeck-screen flex-none w-[40%] bg-[#0e0b1a] relative border-right border-[#2a2040] p-4 flex items-center justify-center">
+      <!-- Scanlines -->
+      <div class="cd-scanlines"></div>
+      <img src={media} alt={title} class="relative z-10 max-h-[250px] object-contain rounded-sm border border-[rgba(45,226,230,0.3)] shadow-[0_0_15px_rgba(45,226,230,0.1)]" />
+    </div>
+
+    <!-- Right: Text content (60%) -->
+    <div class="cyberdeck-screen flex-1 bg-[#241734] relative flex flex-col">
+      <!-- Scanlines -->
+      <div class="cd-scanlines"></div>
+      
+      <!-- Top status strip inside screen -->
+      <div class="cd-screen-bar">
+        <span class="opacity-60">{title.toLowerCase()}_process :~$</span>
+        <span class="flex items-center gap-1.5 ml-auto">
+          NET <span class="cd-pulse-dot"></span>
+        </span>
+      </div>
+
+      <!-- Slot -->
+      <div class="cd-screen-content grow p-6 font-mono text-(--theme-text-base) text-base md:text-lg flex flex-col justify-center">
+        <h3 class="text-(--theme-accent) font-bold uppercase tracking-widest text-2xl mb-4">{title}</h3>
+        <p class="leading-relaxed opacity-90">{text}</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Bottom connector rail ────────────────────────────────────── -->
+  <div class="cyberdeck-footer">
+    <div class="cd-connector"></div>
+    <div class="cd-connector"></div>
+    <div class="cd-connector"></div>
+    <span class="cd-footer-text">PROJECT_SLOT // {title.toUpperCase()}</span>
+    <div class="cd-connector"></div>
+    <div class="cd-connector"></div>
+    <div class="cd-connector"></div>
+  </div>
+
+</Tag>
+
+<style>
+  /* ── Outer shell ───────────────────────────────────────────────── */
+  .cyberdeck-outer {
+    background: #0a0812;
+    border: 1px solid #2a2040;
+    box-shadow:
+      0 0 0 1px #1a1030,
+      0 0 30px rgba(45, 226, 230, 0.08),
+      0 10px 30px rgba(0,0,0,0.6);
+  }
+
+  /* ── Header ────────────────────────────────────────────────────── */
+  .cyberdeck-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 7px 14px;
+    background: #06040f;
+    border-bottom: 1px solid #2a2040;
+  }
+  .cyberdeck-header-left { display: flex; align-items: center; gap: 6px; }
+  .cyberdeck-header-right { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+
+  .cd-led {
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+  }
+  .cd-led-red    { background: #FD1D53; box-shadow: 0 0 5px #FD1D53; }
+  .cd-led-amber  { background: #F9C80E; box-shadow: 0 0 5px #F9C80E; }
+  .cd-led-green  { background: #2DE2E6; box-shadow: 0 0 5px #2DE2E6; }
+
+  .cd-module-label {
+    font-family: 'Space Grotesk', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    color: rgba(45,226,230,0.55);
+    text-transform: uppercase;
+    margin-left: 6px;
+  }
+
+  .cd-status-pill {
+    font-family: monospace;
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    padding: 2px 6px;
+    border: 1px solid rgba(253,29,83,0.4);
+    color: rgba(253,29,83,0.7);
+    text-transform: uppercase;
+  }
+  .cd-pill-cyan  { border-color: rgba(45,226,230,0.4); color: rgba(45,226,230,0.7); }
+  .cd-pill-active { border-color: rgba(249,200,14,0.4); color: rgba(249,200,14,0.7); }
+
+  /* ── Scanlines ─────────────────────────────────────────── */
+  .cd-scanlines {
+    position: absolute; inset: 0;
+    pointer-events: none; z-index: 5;
+    background:
+      linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.25) 50%),
+      linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06));
+    background-size: 100% 4px, 3px 100%;
+    opacity: 0.4;
+  }
+
+  /* ── Screen bar ─────────────────────────────────────────── */
+  .cd-screen-bar {
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    height: 24px;
+    background: rgba(0,0,0,0.5);
+    border-bottom: 1px solid rgba(0,0,0,0.6);
+    font-family: monospace;
+    font-size: 9px;
+    color: var(--theme-neon-cyan);
+    position: relative; z-index: 40;
+    flex-shrink: 0;
+  }
+
+  .cd-pulse-dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    background: var(--theme-neon-cyan);
+  }
+
+  .cd-screen-content {
+    position: relative; z-index: 40;
+  }
+
+  /* ── Footer connector rail ─────────────────────────────────────── */
+  .cyberdeck-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: #06040f;
+    border-top: 1px solid #2a2040;
+  }
+  .cd-connector {
+    width: 18px; height: 10px;
+    background: #111;
+    border: 1px solid #2a2040;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.8);
+  }
+  .cd-footer-text {
+    font-family: monospace;
+    font-size: 7px;
+    color: rgba(45,226,230,0.2);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0 10px;
+  }
+</style>
