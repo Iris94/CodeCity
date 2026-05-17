@@ -18,12 +18,12 @@ import { ClientRouter } from 'astro:transitions';
 		<ClientRouter />
 	</head>
 	<body>
-		<!-- HexRain lives here so it spans the entire document -->
+		
 		<HexRain />
 		<slot />
 
 		<script>
-			// Force autoplay videos on Astro ClientRouter page transitions
+
 			document.addEventListener('astro:page-load', () => {
 				const videos = document.querySelectorAll('video');
 				videos.forEach(video => {

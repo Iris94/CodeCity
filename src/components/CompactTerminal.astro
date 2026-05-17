@@ -1,6 +1,5 @@
 ---
-// CompactTerminal — Cyberdeck Datapad (mobile/compact version)
-// Same cyberdeck spice as CrtTerminal but vertical form factor
+
 interface Props {
   rotate?: boolean;
   sysId?: string;
@@ -14,7 +13,6 @@ const { rotate = false, sysId = "IRIS_94" } = Astro.props;
   data-rotate={rotate ? "true" : "false"}
 >
 
-  <!-- ── Top edge: camera strip + LEDs ──────────────────────────── -->
   <div class="cdpad-top-edge">
     <span class="cdp-led cdp-led-red"></span>
     <span class="cdp-led cdp-led-amber"></span>
@@ -23,21 +21,17 @@ const { rotate = false, sysId = "IRIS_94" } = Astro.props;
     <span class="cdp-label">IRIS_94</span>
   </div>
 
-  <!-- ── Module label strip ─────────────────────────────────────── -->
   <div class="cdpad-label-strip">
     <span>CYBERDECK // DATAPAD_v1</span>
     <span class="cdp-status-active">COMPILER: ACTIVE</span>
   </div>
 
-  <!-- ── Screen bezel ───────────────────────────────────────────── -->
   <div class="cdpad-bezel">
 
-    <!-- Scanlines -->
     <div class="cdp-scanlines"></div>
-    <!-- Shimmer -->
+    
     <div class="cdp-shimmer"></div>
 
-    <!-- Status bar -->
     <div class="cdpad-screen-bar">
       <span class="opacity-60 text-[9px]">{sysId} :~$</span>
       <span class="flex items-center gap-1 ml-auto">
@@ -46,19 +40,16 @@ const { rotate = false, sysId = "IRIS_94" } = Astro.props;
       </span>
     </div>
 
-    <!-- Content slot -->
     <div class="cdpad-content">
       <slot />
     </div>
 
-    <!-- Bottom live hex strip -->
     <div class="cdpad-hex-bar" id="cdpad-hex-bar">
-      <!-- filled by JS -->
+      
     </div>
 
   </div>
 
-  <!-- ── Bottom: connector ports ────────────────────────────────── -->
   <div class="cdpad-footer">
     <div class="cdp-connector"></div>
     <div class="cdp-connector cdp-conn-wide"></div>
@@ -68,7 +59,7 @@ const { rotate = false, sysId = "IRIS_94" } = Astro.props;
 </div>
 
 <style>
-  /* ── Outer shell ───────────────────────────────────────────────── */
+  
   .cdpad-outer {
     background: #0a0812;
     border: 1px solid #2a2040;
@@ -79,7 +70,6 @@ const { rotate = false, sysId = "IRIS_94" } = Astro.props;
     transition: transform 0.1s ease-out;
   }
 
-  /* ── Top edge ──────────────────────────────────────────────────── */
   .cdpad-top-edge {
     display: flex;
     align-items: center;
@@ -112,7 +102,6 @@ const { rotate = false, sysId = "IRIS_94" } = Astro.props;
     text-transform: uppercase;
   }
 
-  /* ── Label strip ───────────────────────────────────────────────── */
   .cdpad-label-strip {
     display: flex;
     justify-content: space-between;
@@ -131,7 +120,6 @@ const { rotate = false, sysId = "IRIS_94" } = Astro.props;
     animation: cdp-flicker 3s steps(1) infinite;
   }
 
-  /* ── Screen bezel ──────────────────────────────────────────────── */
   .cdpad-bezel {
     background: #241734;
     position: relative;
@@ -157,7 +145,6 @@ const { rotate = false, sysId = "IRIS_94" } = Astro.props;
     animation: cdp-sweep 5s ease-in-out infinite;
   }
 
-  /* ── Screen status bar ─────────────────────────────────────────── */
   .cdpad-screen-bar {
     display: flex;
     align-items: center;
@@ -185,7 +172,6 @@ const { rotate = false, sysId = "IRIS_94" } = Astro.props;
     animation: cdp-blink 1s steps(1) infinite;
   }
 
-  /* ── Content area ──────────────────────────────────────────────── */
   .cdpad-content {
     flex: 1;
     padding: 16px 14px;
@@ -199,7 +185,6 @@ const { rotate = false, sysId = "IRIS_94" } = Astro.props;
   .cdpad-content::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
   .cdpad-content::-webkit-scrollbar-thumb { background: var(--theme-neon-cyan); }
 
-  /* ── Bottom hex strip ──────────────────────────────────────────── */
   .cdpad-hex-bar {
     height: 20px;
     background: #06040f;
@@ -214,7 +199,6 @@ const { rotate = false, sysId = "IRIS_94" } = Astro.props;
     flex-shrink: 0;
   }
 
-  /* ── Footer ports ──────────────────────────────────────────────── */
   .cdpad-footer {
     display: flex;
     align-items: center;
@@ -232,7 +216,6 @@ const { rotate = false, sysId = "IRIS_94" } = Astro.props;
   }
   .cdp-conn-wide { width: 28px; }
 
-  /* ── Keyframes ─────────────────────────────────────────────────── */
   @keyframes cdp-blink {
     0%, 49% { opacity: 1; }
     50%, 100% { opacity: 0.15; }
@@ -249,7 +232,7 @@ const { rotate = false, sysId = "IRIS_94" } = Astro.props;
 </style>
 
 <script>
-  // ── Hex bar scroll ─────────────────────────────────────────────────
+
   const hexBar = document.getElementById('cdpad-hex-bar');
   if (hexBar) {
     const chars = '0123456789ABCDEF ';
@@ -260,7 +243,6 @@ const { rotate = false, sysId = "IRIS_94" } = Astro.props;
     setInterval(() => { hexBar.textContent = fill(); }, 300);
   }
 
-  // ── 3-D tilt on rotate=true ────────────────────────────────────────
   const pads = document.querySelectorAll('.cdpad-outer[data-rotate="true"]');
   pads.forEach((pad) => {
     const el = pad as HTMLElement;

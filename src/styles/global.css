@@ -4,7 +4,7 @@
 @import "./base.css";
 
 @layer utilities {
-  /* Reusable color gradients from old project */
+  
   .bg-gradient-retrowave {
     background: linear-gradient(0deg, rgba(5,28,44,1) 0%, rgba(63,42,86,1) 100%);
   }
@@ -14,10 +14,6 @@
   }
 }
 
-/* ── HologramTerminal slotted content ────────────────────────────────────
-   These live in the caller's scope so Astro component-scoped CSS can't
-   reach them. Kept here as global styles instead.
-   ────────────────────────────────────────────────────────────────────── */
 .htl-skills {
   display: flex;
   flex-direction: column;

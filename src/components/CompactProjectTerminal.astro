@@ -1,5 +1,5 @@
 ---
-// CompactProjectTerminal — Simplified vertical datapad layout for mobile project listings
+
 interface Props {
   media: string;
   title: string;
@@ -16,7 +16,6 @@ const extraProps = href ? { href, target: "_blank", rel: "noopener noreferrer" }
 
 <Tag class={wrapperClass} {...extraProps}>
 
-  <!-- ── Top edge: camera strip + LEDs ──────────────────────────── -->
   <div class="cdpad-top-edge">
     <span class="cdp-led cdp-led-red"></span>
     <span class="cdp-led cdp-led-amber"></span>
@@ -25,19 +24,15 @@ const extraProps = href ? { href, target: "_blank", rel: "noopener noreferrer" }
     <span class="cdp-label">{title.toUpperCase()}</span>
   </div>
 
-  <!-- ── Module label strip ─────────────────────────────────────── -->
   <div class="cdpad-label-strip">
     <span>CYBERDECK // PROJECT</span>
     <span class="cdp-status-active">STATUS: ONLINE</span>
   </div>
 
-  <!-- ── Screen bezel ───────────────────────────────────────────── -->
   <div class="cdpad-bezel flex flex-col">
 
-    <!-- Scanlines -->
     <div class="cdp-scanlines"></div>
 
-    <!-- Status bar -->
     <div class="cdpad-screen-bar">
       <span class="opacity-60 text-[9px]">{title.toLowerCase()}_process :~$</span>
       <span class="flex items-center gap-1 ml-auto">
@@ -45,15 +40,12 @@ const extraProps = href ? { href, target: "_blank", rel: "noopener noreferrer" }
       </span>
     </div>
 
-    <!-- Content slot -->
     <div class="cdpad-content flex flex-col relative z-40">
-      
-      <!-- Top Image -->
+
       <div class="w-full flex justify-center mb-4 p-2 bg-[#0e0b1a] border-b border-[#2a2040]">
         <img src={media} alt={title} class="max-h-[180px] object-contain rounded-sm border border-[rgba(45,226,230,0.3)] shadow-[0_0_10px_rgba(45,226,230,0.1)]" />
       </div>
 
-      <!-- Text content -->
       <div class="p-4 font-mono text-(--theme-text-base) text-sm flex flex-col">
         <h3 class="text-(--theme-accent) font-bold uppercase tracking-widest text-xl mb-3">{title}</h3>
         <p class="leading-relaxed opacity-90">{text}</p>
@@ -63,7 +55,6 @@ const extraProps = href ? { href, target: "_blank", rel: "noopener noreferrer" }
 
   </div>
 
-  <!-- ── Bottom: connector ports ────────────────────────────────── -->
   <div class="cdpad-footer">
     <div class="cdp-connector"></div>
     <div class="cdp-connector cdp-conn-wide"></div>
@@ -73,7 +64,7 @@ const extraProps = href ? { href, target: "_blank", rel: "noopener noreferrer" }
 </Tag>
 
 <style>
-  /* ── Outer shell ───────────────────────────────────────────────── */
+  
   .cdpad-outer {
     background: #0a0812;
     border: 1px solid #2a2040;
@@ -83,7 +74,6 @@ const extraProps = href ? { href, target: "_blank", rel: "noopener noreferrer" }
       0 10px 20px rgba(0,0,0,0.6);
   }
 
-  /* ── Top edge ──────────────────────────────────────────────────── */
   .cdpad-top-edge {
     display: flex;
     align-items: center;
@@ -116,7 +106,6 @@ const extraProps = href ? { href, target: "_blank", rel: "noopener noreferrer" }
     text-transform: uppercase;
   }
 
-  /* ── Label strip ───────────────────────────────────────────────── */
   .cdpad-label-strip {
     display: flex;
     justify-content: space-between;
@@ -134,7 +123,6 @@ const extraProps = href ? { href, target: "_blank", rel: "noopener noreferrer" }
     color: rgba(249,200,14,0.6);
   }
 
-  /* ── Screen bezel ──────────────────────────────────────────────── */
   .cdpad-bezel {
     background: #241734;
     position: relative;
@@ -151,7 +139,6 @@ const extraProps = href ? { href, target: "_blank", rel: "noopener noreferrer" }
     opacity: 0.4;
   }
 
-  /* ── Screen status bar ─────────────────────────────────────────── */
   .cdpad-screen-bar {
     display: flex;
     align-items: center;
@@ -170,7 +157,6 @@ const extraProps = href ? { href, target: "_blank", rel: "noopener noreferrer" }
     background: var(--theme-neon-cyan);
   }
 
-  /* ── Footer ports ──────────────────────────────────────────────── */
   .cdpad-footer {
     display: flex;
     align-items: center;

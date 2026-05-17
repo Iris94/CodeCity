@@ -1,5 +1,5 @@
 ---
-// CrtProjectTerminal — Simplified CRT layout for desktop project listings
+
 interface Props {
   media: string;
   title: string;
@@ -16,7 +16,6 @@ const extraProps = href ? { href, target: "_blank", rel: "noopener noreferrer" }
 
 <Tag class={wrapperClass} {...extraProps}>
 
-  <!-- ── Top bar: module header ──────────────────────────────────── -->
   <div class="cyberdeck-header">
     <div class="cyberdeck-header-left">
       <span class="cd-led cd-led-red"></span>
@@ -30,22 +29,18 @@ const extraProps = href ? { href, target: "_blank", rel: "noopener noreferrer" }
     </div>
   </div>
 
-  <!-- ── Main body ────────────────────────────────────────────────── -->
   <div class="cyberdeck-body flex flex-row min-h-[300px] overflow-hidden">
 
-    <!-- Left: Image content (40%) -->
     <div class="cyberdeck-screen flex-none w-[40%] bg-[#0e0b1a] relative border-right border-[#2a2040] p-4 flex items-center justify-center">
-      <!-- Scanlines -->
+      
       <div class="cd-scanlines"></div>
       <img src={media} alt={title} class="relative z-10 max-h-[250px] object-contain rounded-sm border border-[rgba(45,226,230,0.3)] shadow-[0_0_15px_rgba(45,226,230,0.1)]" />
     </div>
 
-    <!-- Right: Text content (60%) -->
     <div class="cyberdeck-screen flex-1 bg-[#241734] relative flex flex-col">
-      <!-- Scanlines -->
-      <div class="cd-scanlines"></div>
       
-      <!-- Top status strip inside screen -->
+      <div class="cd-scanlines"></div>
+
       <div class="cd-screen-bar">
         <span class="opacity-60">{title.toLowerCase()}_process :~$</span>
         <span class="flex items-center gap-1.5 ml-auto">
@@ -53,7 +48,6 @@ const extraProps = href ? { href, target: "_blank", rel: "noopener noreferrer" }
         </span>
       </div>
 
-      <!-- Slot -->
       <div class="cd-screen-content grow p-6 font-mono text-(--theme-text-base) text-base md:text-lg flex flex-col justify-center">
         <h3 class="text-(--theme-accent) font-bold uppercase tracking-widest text-2xl mb-4">{title}</h3>
         <p class="leading-relaxed opacity-90">{text}</p>
@@ -62,7 +56,6 @@ const extraProps = href ? { href, target: "_blank", rel: "noopener noreferrer" }
 
   </div>
 
-  <!-- ── Bottom connector rail ────────────────────────────────────── -->
   <div class="cyberdeck-footer">
     <div class="cd-connector"></div>
     <div class="cd-connector"></div>
@@ -76,7 +69,7 @@ const extraProps = href ? { href, target: "_blank", rel: "noopener noreferrer" }
 </Tag>
 
 <style>
-  /* ── Outer shell ───────────────────────────────────────────────── */
+  
   .cyberdeck-outer {
     background: #0a0812;
     border: 1px solid #2a2040;
@@ -86,7 +79,6 @@ const extraProps = href ? { href, target: "_blank", rel: "noopener noreferrer" }
       0 10px 30px rgba(0,0,0,0.6);
   }
 
-  /* ── Header ────────────────────────────────────────────────────── */
   .cyberdeck-header {
     display: flex;
     align-items: center;
@@ -130,7 +122,6 @@ const extraProps = href ? { href, target: "_blank", rel: "noopener noreferrer" }
   .cd-pill-cyan  { border-color: rgba(45,226,230,0.4); color: rgba(45,226,230,0.7); }
   .cd-pill-active { border-color: rgba(249,200,14,0.4); color: rgba(249,200,14,0.7); }
 
-  /* ── Scanlines ─────────────────────────────────────────── */
   .cd-scanlines {
     position: absolute; inset: 0;
     pointer-events: none; z-index: 5;
@@ -141,7 +132,6 @@ const extraProps = href ? { href, target: "_blank", rel: "noopener noreferrer" }
     opacity: 0.4;
   }
 
-  /* ── Screen bar ─────────────────────────────────────────── */
   .cd-screen-bar {
     display: flex;
     align-items: center;
@@ -166,7 +156,6 @@ const extraProps = href ? { href, target: "_blank", rel: "noopener noreferrer" }
     position: relative; z-index: 40;
   }
 
-  /* ── Footer connector rail ─────────────────────────────────────── */
   .cyberdeck-footer {
     display: flex;
     align-items: center;

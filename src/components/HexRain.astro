@@ -1,5 +1,5 @@
 ---
-// HexRain overlay - lightweight canvas-based floating hex codes
+
 ---
 
 <canvas id="hex-rain-canvas" class="fixed inset-0 w-full h-full pointer-events-none" style="z-index: 1;"></canvas>
@@ -29,7 +29,7 @@
 		const r = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
 		const g = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
 		const b = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
-		// 50% chance of short format
+
 		if (Math.random() > 0.5) {
 			return `#${r[0]}${g[0]}${b[0]}`;
 		}
@@ -55,7 +55,6 @@
 	resize();
 	window.addEventListener('resize', resize);
 
-	// Stagger initial spawns
 	for (let i = 0; i < MAX_PARTICLES; i++) {
 		setTimeout(() => {
 			const p = spawnParticle();
@@ -77,7 +76,6 @@
 		for (let i = particles.length - 1; i >= 0; i--) {
 			const p = particles[i];
 
-			// Phase transitions
 			if (p.phase === 'fadein') {
 				p.alpha += FADE_SPEED;
 				if (p.alpha >= 0.7) {
@@ -95,7 +93,7 @@
 				p.alpha -= FADE_SPEED;
 				p.y += p.speed;
 				if (p.alpha <= 0) {
-					// Respawn
+
 					particles[i] = spawnParticle();
 					continue;
 				}

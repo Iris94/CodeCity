@@ -27,16 +27,13 @@ const techStack = [
 ---
 
 <Layout>
-	<!-- Fixed Navigation (outside main flow) -->
+	
 	<Navigation />
 
 	<main class="w-full min-h-screen bg-(--theme-midnight-black) pb-[150px]">
 
-		<!-- ══════════════════════════════════════════════════════════════
-		     SECTION 1: Landing Hero Video + Hologram
-		     ══════════════════════════════════════════════════════════════ -->
 		<section class="relative w-full overflow-hidden bg-(--theme-midnight-black)" style="height: 85vh; z-index: 20;">
-			<!-- Background Video -->
+			
 			<video
 				autoplay
 				loop
@@ -47,7 +44,6 @@ const techStack = [
 				<source src="/cityRain.mp4" type="video/mp4" />
 			</video>
 
-			<!-- Content Container -->
 			<div class="relative z-20 w-full lg:w-10/12 max-w-270 mx-auto h-full flex flex-col px-6 lg:px-0">
 				<div class="grow flex flex-col justify-center">
 					<HologramTerminal hologramTitle="Case Studies" hologramLabel="// cases.init()">
@@ -59,22 +55,16 @@ const techStack = [
 			</div>
 		</section>
 
-		<!-- ══════════════════════════════════════════════════════════════
-		     SECTION 2: Tech Stack
-		     ══════════════════════════════════════════════════════════════ -->
 		<section class="w-full py-16 sm:py-24 relative bg-(--theme-midnight-black)">
 			<div class="w-full lg:w-10/12 max-w-270 mx-auto px-6 lg:px-0 relative z-10">
 
-				<!-- Section label -->
 				<span class="block text-[10px] font-mono text-(--theme-neon-red) tracking-widest uppercase mb-3 opacity-70">
-					// tech - stack _001
+
 				</span>
 
-				<!-- Bordered block -->
 				<div class="border-t border-(--theme-neon-red) pt-14">
 					<div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-start">
 
-						<!-- Left: Loops through Tech Stack Cube Holograms -->
 						<div class="grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));">
 							{techStack.map((tech) => (
 								<CubeTerminal label={tech.name}>
@@ -85,7 +75,6 @@ const techStack = [
 							))}
 						</div>
 
-						<!-- Right: Tech Stack info -->
 						<div class="flex flex-col justify-start h-full pt-4">
 							<GlitchText
 								tag="h2"
@@ -106,21 +95,15 @@ const techStack = [
 			</div>
 		</section>
 
-		<!-- ══════════════════════════════════════════════════════════════
-		     SECTION 3: Project List
-		     ══════════════════════════════════════════════════════════════ -->
 		<section class="w-full py-12 sm:py-16 relative bg-(--theme-midnight-black)">
 			<div class="w-full lg:w-10/12 max-w-270 mx-auto px-6 lg:px-0 relative z-10">
 
-				<!-- Section label -->
 				<span class="block text-[10px] font-mono text-(--theme-neon-red) tracking-widest uppercase mb-3 opacity-70">
-					// project_list 002
+
 				</span>
 
-				<!-- Bordered block -->
 				<div class="border-t border-(--theme-neon-red) pt-14 space-y-16">
 
-					<!-- Freelance Profile -->
 					<div>
 						<HologramTerminal hologramTitle="Freelance Status" hologramLabel="// current_status()">
 							<p class="text-(--theme-text-base) text-left text-lg leading-relaxed font-mono py-4 px-4 sm:px-8">
@@ -133,7 +116,6 @@ const techStack = [
 						</HologramTerminal>
 					</div>
 
-					<!-- Project 1: Qiko -->
 					<div>
 						<div class="hidden sm:block">
 							<CrtProjectTerminal 
@@ -151,7 +133,6 @@ const techStack = [
 						</div>
 					</div>
 
-					<!-- Project 2: Tetris -->
 					<div>
 						<div class="hidden sm:block">
 							<CrtProjectTerminal 
@@ -171,7 +152,6 @@ const techStack = [
 						</div>
 					</div>
 
-					<!-- Project 3: Empire Shield -->
 					<div>
 						<div class="hidden sm:block">
 							<CrtProjectTerminal 
@@ -199,7 +179,7 @@ const techStack = [
 </Layout>
 
 <style>
-	/* Portrait video crop on mobile */
+	
 	@media (max-width: 640px) {
 		.hero-video {
 			object-position: center center;

@@ -1,9 +1,5 @@
 ---
-// HologramTerminal - Reusable holographic floating terminal wrapper
-// Props:
-//   hologramTitle - displayed in the header bar (lowercase)
-//   hologramLabel - displayed as inline comment above slot content
-//   fullHeight    - when true: takes 100% height of parent, no float animation, used for split layouts
+
 interface Props {
   hologramTitle?: string;
   hologramLabel?: string;
@@ -18,13 +14,12 @@ const {
 ---
 
 <div class={`hologram-terminal-outer${fullHeight ? ' htl-full-height' : ''}`}>
-  <!-- Corner brackets -->
+  
   <div class="htl-corner htl-tl"></div>
   <div class="htl-corner htl-tr"></div>
   <div class="htl-corner htl-bl"></div>
   <div class="htl-corner htl-br"></div>
 
-  <!-- Top header bar -->
   <div class="htl-header">
     <span class="htl-dot htl-dot-red"></span>
     <span class="htl-dot htl-dot-yellow"></span>
@@ -33,24 +28,20 @@ const {
     <span class="htl-badge">HOLOGRAM_v2.4</span>
   </div>
 
-  <!-- Screen body -->
   <div class="htl-screen">
-    <!-- Scanlines overlay -->
+    
     <div class="htl-scanlines"></div>
-    <!-- Hologram shimmer sweep -->
+    
     <div class="htl-shimmer"></div>
-    <!-- Flicker noise -->
+    
     <div class="htl-flicker"></div>
 
-    <!-- Content -->
     <div class="htl-content">
-      <!-- Label -->
+      
       <p class="htl-label">{hologramLabel}</p>
 
-      <!-- Slot: caller provides the actual content -->
       <slot />
 
-      <!-- Bottom status line -->
       <p class="htl-status">
         <span class="htl-cursor-blink">█</span>
         <span class="htl-status-text">SYS: IRIS_94 &nbsp;|&nbsp; STATUS: ONLINE &nbsp;|&nbsp; LOC: CODE-CITY</span>
@@ -58,12 +49,11 @@ const {
     </div>
   </div>
 
-  <!-- Bottom edge glow line -->
   <div class="htl-bottom-line"></div>
 </div>
 
 <style>
-  /* ── Outer wrapper ─────────────────────────────────────────────────── */
+  
   .hologram-terminal-outer {
     position: relative;
     width: 100%;
@@ -79,12 +69,11 @@ const {
     overflow: visible;
   }
 
-  /* fullHeight variant — fills parent container, no float */
   .htl-full-height {
     height: 100%;
     display: flex;
     flex-direction: column;
-    animation: hologram-glow-pulse 4s ease-in-out infinite; /* glow only, no translateY */
+    animation: hologram-glow-pulse 4s ease-in-out infinite; 
   }
   .htl-full-height .htl-screen {
     flex: 1;
@@ -98,7 +87,6 @@ const {
     justify-content: center;
   }
 
-  /* ── Corner brackets ───────────────────────────────────────────────── */
   .htl-corner {
     position: absolute;
     width: 18px;
@@ -110,7 +98,6 @@ const {
   .htl-bl { bottom: -2px; left: -2px;  border-bottom: 2px solid var(--theme-neon-cyan); border-left:  2px solid var(--theme-neon-cyan); }
   .htl-br { bottom: -2px; right: -2px; border-bottom: 2px solid var(--theme-neon-cyan); border-right: 2px solid var(--theme-neon-cyan); }
 
-  /* ── Header bar ────────────────────────────────────────────────────── */
   .htl-header {
     display: flex;
     align-items: center;
@@ -149,7 +136,6 @@ const {
     font-family: monospace;
   }
 
-  /* ── Screen body ───────────────────────────────────────────────────── */
   .htl-screen {
     position: relative;
     background: rgba(13, 2, 33, 0.70);
@@ -158,7 +144,6 @@ const {
     backdrop-filter: blur(2px);
   }
 
-  /* Scanlines */
   .htl-scanlines {
     position: absolute;
     inset: 0;
@@ -171,7 +156,6 @@ const {
     opacity: 0.5;
   }
 
-  /* Hologram shimmer sweep */
   .htl-shimmer {
     position: absolute;
     inset: 0;
@@ -187,7 +171,6 @@ const {
     animation: hologram-sweep 4s ease-in-out infinite;
   }
 
-  /* Flicker overlay */
   .htl-flicker {
     position: absolute;
     inset: 0;
@@ -198,7 +181,6 @@ const {
     opacity: 0;
   }
 
-  /* ── Content ───────────────────────────────────────────────────────── */
   .htl-content {
     position: relative;
     z-index: 10;
@@ -214,7 +196,6 @@ const {
     margin-left: 2px;
   }
 
-  /* ── Status bar ────────────────────────────────────────────────────── */
   .htl-status {
     display: flex;
     align-items: center;
@@ -235,7 +216,6 @@ const {
     opacity: 0.8;
   }
 
-  /* ── Bottom accent line ─────────────────────────────────────────────── */
   .htl-bottom-line {
     height: 2px;
     background: linear-gradient(
@@ -251,7 +231,6 @@ const {
     flex-shrink: 0;
   }
 
-  /* ── Mobile: more compact, slightly taller padding ──────────────────── */
   @media (max-width: 640px) {
     .htl-screen {
       padding: 16px 14px 14px;
@@ -260,11 +239,10 @@ const {
       padding: 5px 10px;
     }
     .htl-badge {
-      display: none; /* save horizontal space */
+      display: none; 
     }
   }
 
-  /* ── Keyframes ──────────────────────────────────────────────────────── */
   @keyframes hologram-float {
     0%, 100% { transform: translateY(0px);  box-shadow: 0 0 0 1px rgba(45,226,230,0.35), 0 0 12px rgba(45,226,230,0.25), 0 0 40px rgba(45,226,230,0.10), inset 0 0 60px rgba(45,226,230,0.04); }
     50%       { transform: translateY(-4px); box-shadow: 0 0 0 1px rgba(45,226,230,0.50), 0 0 18px rgba(45,226,230,0.35), 0 0 55px rgba(45,226,230,0.15), inset 0 0 60px rgba(45,226,230,0.07); }

@@ -1,6 +1,5 @@
 ---
-// CrtTerminal — Cyberdeck Module
-// Layout: [main content 70% | hex-stream sidebar 30%]
+
 interface Props {
   maxWidth?: string;
   sysId?: string;
@@ -11,7 +10,6 @@ const { maxWidth = "max-w-[900px]", sysId = "IRIS_94" } = Astro.props;
 
 <div class={`cyberdeck-outer relative w-full ${maxWidth} mx-auto`}>
 
-  <!-- ── Top bar: module header ──────────────────────────────────── -->
   <div class="cyberdeck-header">
     <div class="cyberdeck-header-left">
       <span class="cd-led cd-led-red"></span>
@@ -26,17 +24,14 @@ const { maxWidth = "max-w-[900px]", sysId = "IRIS_94" } = Astro.props;
     </div>
   </div>
 
-  <!-- ── Main body ────────────────────────────────────────────────── -->
   <div class="cyberdeck-body">
 
-    <!-- Left: screen content (70%) -->
     <div class="cyberdeck-screen">
-      <!-- Scanlines -->
+      
       <div class="cd-scanlines"></div>
-      <!-- Shimmer -->
+      
       <div class="cd-shimmer"></div>
 
-      <!-- Top status strip inside screen -->
       <div class="cd-screen-bar">
         <span class="opacity-60">{sysId} :~$</span>
         <span class="flex items-center gap-1.5 ml-auto">
@@ -44,17 +39,15 @@ const { maxWidth = "max-w-[900px]", sysId = "IRIS_94" } = Astro.props;
         </span>
       </div>
 
-      <!-- Slot -->
       <div class="cd-screen-content">
         <slot />
       </div>
     </div>
 
-    <!-- Right: hex / binary stream sidebar (30%) -->
     <div class="cyberdeck-sidebar">
       <div class="cd-sidebar-header">// DATA_STREAM</div>
       <div class="cd-hex-stream" id="crt-hex-stream">
-        <!-- populated by JS -->
+        
       </div>
       <div class="cd-sidebar-footer">
         <div class="cd-sidebar-stat"><span class="cd-stat-label">CPU</span><span class="cd-stat-bar"><span class="cd-stat-fill" style="width:72%"></span></span></div>
@@ -65,7 +58,6 @@ const { maxWidth = "max-w-[900px]", sysId = "IRIS_94" } = Astro.props;
 
   </div>
 
-  <!-- ── Bottom connector rail ────────────────────────────────────── -->
   <div class="cyberdeck-footer">
     <div class="cd-connector"></div>
     <div class="cd-connector"></div>
@@ -79,7 +71,7 @@ const { maxWidth = "max-w-[900px]", sysId = "IRIS_94" } = Astro.props;
 </div>
 
 <style>
-  /* ── Outer shell ───────────────────────────────────────────────── */
+  
   .cyberdeck-outer {
     background: #0a0812;
     border: 1px solid #2a2040;
@@ -89,7 +81,6 @@ const { maxWidth = "max-w-[900px]", sysId = "IRIS_94" } = Astro.props;
       0 30px 60px rgba(0,0,0,0.9);
   }
 
-  /* ── Header ────────────────────────────────────────────────────── */
   .cyberdeck-header {
     display: flex;
     align-items: center;
@@ -134,7 +125,6 @@ const { maxWidth = "max-w-[900px]", sysId = "IRIS_94" } = Astro.props;
   .cd-pill-active { border-color: rgba(249,200,14,0.4); color: rgba(249,200,14,0.7);
     animation: cd-pill-flicker 3s steps(1) infinite; }
 
-  /* ── Main body split ───────────────────────────────────────────── */
   .cyberdeck-body {
     display: flex;
     flex-direction: row;
@@ -142,10 +132,9 @@ const { maxWidth = "max-w-[900px]", sysId = "IRIS_94" } = Astro.props;
     overflow: hidden;
   }
 
-  /* ── Left screen panel ─────────────────────────────────────────── */
   .cyberdeck-screen {
     flex: 1 1 0;
-    min-width: 0;         /* prevents flex child from overflowing */
+    min-width: 0;         
     background: #241734;
     position: relative;
     overflow: hidden;
@@ -206,9 +195,8 @@ const { maxWidth = "max-w-[900px]", sysId = "IRIS_94" } = Astro.props;
   .cd-screen-content::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
   .cd-screen-content::-webkit-scrollbar-thumb { background: var(--theme-neon-cyan); }
 
-  /* ── Right sidebar ─────────────────────────────────────────────── */
   .cyberdeck-sidebar {
-    flex: 0 0 200px;       /* fixed 200px sidebar, no grow/shrink */
+    flex: 0 0 200px;       
     width: 200px;
     background: #06040f;
     display: flex;
@@ -238,7 +226,7 @@ const { maxWidth = "max-w-[900px]", sysId = "IRIS_94" } = Astro.props;
     word-break: break-all;
     position: relative;
   }
-  /* fade out at bottom */
+  
   .cd-hex-stream::after {
     content: '';
     position: absolute;
@@ -263,7 +251,6 @@ const { maxWidth = "max-w-[900px]", sysId = "IRIS_94" } = Astro.props;
   .cd-fill-red   { background: var(--theme-neon-red); }
   .cd-fill-amber { background: var(--theme-accent); }
 
-  /* ── Footer connector rail ─────────────────────────────────────── */
   .cyberdeck-footer {
     display: flex;
     align-items: center;
@@ -289,7 +276,6 @@ const { maxWidth = "max-w-[900px]", sysId = "IRIS_94" } = Astro.props;
     padding: 0 10px;
   }
 
-  /* ── Keyframes ─────────────────────────────────────────────────── */
   @keyframes cd-led-pulse {
     0%, 49% { opacity: 1; }
     50%, 100% { opacity: 0.2; }
@@ -304,7 +290,6 @@ const { maxWidth = "max-w-[900px]", sysId = "IRIS_94" } = Astro.props;
     100% { background-position: -200% 0; }
   }
 
-  /* ── Responsive: collapse sidebar on small screens ─────────────── */
   @media (max-width: 640px) {
     .cyberdeck-sidebar { display: none; }
     .cyberdeck-body { min-height: 320px; }
@@ -312,25 +297,24 @@ const { maxWidth = "max-w-[900px]", sysId = "IRIS_94" } = Astro.props;
 </style>
 
 <script>
-  // ── Hex/Binary stream generator ────────────────────────────────────
+
   const streamEl = document.getElementById('crt-hex-stream');
   if (streamEl) {
     const chars = '0123456789ABCDEF ';
     let content = '';
-    // pre-fill ~400 chars
+
     for (let i = 0; i < 400; i++) {
       content += chars[Math.floor(Math.random() * chars.length)];
       if (i % 24 === 23) content += '\n';
     }
     streamEl.textContent = content;
 
-    // append new chars periodically and trim old
     setInterval(() => {
       const newChars = Array.from({ length: 8 }, () =>
         chars[Math.floor(Math.random() * chars.length)]
       ).join('') + '\n';
       streamEl.textContent = (streamEl.textContent ?? '') + newChars;
-      // keep under 600 chars
+
       if ((streamEl.textContent?.length ?? 0) > 600) {
         streamEl.textContent = streamEl.textContent?.slice(-500) ?? '';
       }

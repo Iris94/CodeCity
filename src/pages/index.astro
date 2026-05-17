@@ -14,16 +14,13 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 ---
 
 <Layout>
-	<!-- Fixed Navigation (outside main flow) -->
+	
 	<Navigation />
 
 	<main class="w-full min-h-screen bg-(--theme-midnight-black)">
 
-		<!-- ══════════════════════════════════════════════════════════════
-		     SECTION 1: Landing Hero Video + Hologram
-		     ══════════════════════════════════════════════════════════════ -->
 		<section class="relative w-full h-screen overflow-hidden bg-(--theme-midnight-black)" style="z-index: 20;">
-			<!-- Background Video: landscape on desktop, portrait crop on mobile -->
+			
 			<video
 				autoplay
 				loop
@@ -34,7 +31,6 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 				<source src="/landingPageVIdeo.mp4" type="video/mp4" />
 			</video>
 
-			<!-- Content Container -->
 			<div class="relative z-20 w-full lg:w-10/12 max-w-270 mx-auto h-full flex flex-col px-6 lg:px-0">
 				<div class="grow flex flex-col justify-center">
 					<HologramTerminal hologramTitle="Developer Profile" hologramLabel="// skill_stack.init()">
@@ -61,24 +57,18 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 			</div>
 		</section>
 
-		<!-- ══════════════════════════════════════════════════════════════
-		     SECTION 2: Dossier / Persona
-		     ══════════════════════════════════════════════════════════════ -->
 		<section class="w-full py-16 sm:py-24 relative bg-(--theme-midnight-black)">
 			<div class="w-full lg:w-10/12 max-w-270 mx-auto px-6 lg:px-0 relative z-10">
 
-				<!-- Section label -->
 				<span class="block text-[10px] font-mono text-(--theme-neon-red) tracking-widest uppercase mb-3 opacity-70">
-					// available data for this persona
+
 				</span>
 
-				<!-- Bordered block -->
 				<div class="border-t border-(--theme-neon-red) pt-14">
 					<div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-start">
 
-						<!-- Left: WantedTerminal -->
 						<WantedTerminal rotate={true}>
-							<!-- Profile Image -->
+							
 							<div class="relative mb-6">
 								<div class="absolute -inset-0.5 bg-(--theme-neon-cyan) opacity-30 blur-sm rounded-md"></div>
 								<img
@@ -86,12 +76,11 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 									alt="Mirza Hajric Persona"
 									class="relative w-full h-80 object-cover rounded-md border border-(--theme-neon-cyan) grayscale-20 contrast-125"
 								/>
-								<!-- Crosshairs -->
+								
 								<div class="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-(--theme-neon-cyan)"></div>
 								<div class="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-(--theme-neon-cyan)"></div>
 							</div>
 
-							<!-- Profile Data -->
 							<div class="w-full text-xs sm:text-sm space-y-3 uppercase font-mono tracking-widest text-(--theme-text-base)">
 								<p class="flex justify-between pb-1 border-b border-black/30">
 									<span class="opacity-50">name:</span>
@@ -124,7 +113,6 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 							</div>
 						</WantedTerminal>
 
-						<!-- Right: Dossier text -->
 						<div class="flex flex-col justify-start h-full pt-4">
 							<GlitchText
 								tag="h2"
@@ -142,10 +130,8 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 					</div>
 				</div>
 
-				<!-- ── Social links + Profiling row ──────────────────────────────── -->
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 mt-24 items-center">
 
-					<!-- Left: CubeTerminal social buttons -->
 					<div class="flex gap-6 items-center w-full">
 						<CubeTerminal as="a" href="https://github.com/Iris94" label="GitHub — Iris94" largeCube={true}>
 							<Fragment set:html={githubIcon} />
@@ -155,7 +141,6 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 						</CubeTerminal>
 					</div>
 
-					<!-- Right: Profiling heading -->
 					<div>
 						<GlitchText
 							tag="h3"
@@ -166,36 +151,28 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 					</div>
 
 				</div>
-				<!-- /social row -->
 
 			</div>
 			</div>
 		</section>
 
-		<!-- ══════════════════════════════════════════════════════════════
-		     SECTION 3: Establishing Connection / Contact
-		     ══════════════════════════════════════════════════════════════ -->
 		<section class="w-full py-16 sm:py-24 bg-(--theme-midnight-black) relative">
 			<div class="w-full lg:w-10/12 max-w-270 mx-auto px-6 lg:px-0 relative z-10">
 
-				<!-- Section label -->
 				<span class="block text-[10px] font-mono text-(--theme-neon-red) tracking-widest uppercase mb-3 opacity-70">
-					// establishing connection
+
 				</span>
 
-				<!-- Bordered block -->
 				<div class="border-t border-(--theme-neon-red) pt-14">
 
-					<!-- Desktop: CrtTerminal -->
 					<div class="hidden sm:block">
 						<CrtTerminal maxWidth="max-w-[1100px]">
-							<!-- Terminal Boot Sequence -->
+							
 							<div id="terminal-boot" class="mb-4">
 								<span class="text-(--theme-neon-red)">iris@code-city</span><span class="text-(--theme-text-base)">:~$</span>&nbsp;
 								<span id="typewriter"></span><span id="blink-cursor" class="animate-pulse">_</span>
 							</div>
 
-							<!-- Form Container (hidden initially) -->
 							<div id="terminal-form" class="hidden flex-col gap-4 text-sm w-full h-full">
 								<p class="text-(--theme-text-base) text-xs mb-2">&gt; SECURE CONNECTION ESTABLISHED. AWAITING TRANSMISSION...</p>
 
@@ -224,16 +201,14 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 						</CrtTerminal>
 					</div>
 
-					<!-- Mobile: CompactTerminal -->
 					<div class="block sm:hidden">
 						<CompactTerminal>
-							<!-- Terminal Boot Sequence (mobile) -->
+							
 							<div id="terminal-boot-m" class="mb-4">
 								<span class="text-(--theme-neon-red)">iris@code-city</span><span class="text-(--theme-text-base)">:~$</span>&nbsp;
 								<span id="typewriter-m"></span><span id="blink-cursor-m" class="animate-pulse">_</span>
 							</div>
 
-							<!-- Form (mobile, hidden initially) -->
 							<div id="terminal-form-m" class="hidden flex-col gap-4 text-xs w-full">
 								<p class="text-(--theme-text-base) text-xs mb-2">&gt; SECURE CONNECTION ESTABLISHED.</p>
 
@@ -266,11 +241,8 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 			</div>
 		</section>
 
-		<!-- ══════════════════════════════════════════════════════════════
-		     SECTION 4: Developer Cases — full video + hologram overlay
-		     ══════════════════════════════════════════════════════════════ -->
 		<section class="relative w-full overflow-hidden bg-(--theme-midnight-black)" style="height: 85vh; z-index: 20;">
-			<!-- Background Video -->
+			
 			<video
 				autoplay loop muted playsinline
 				class="cases-video absolute top-0 left-0 w-full h-full object-cover z-0 opacity-40 mix-blend-screen"
@@ -278,7 +250,6 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 				<source src="/caseWrapper.mp4" type="video/mp4" />
 			</video>
 
-			<!-- Content overlay -->
 			<div class="relative z-20 w-full lg:w-10/12 max-w-270 mx-auto h-full flex flex-col px-6 lg:px-0">
 				<div class="grow flex flex-col justify-center">
 					<HologramTerminal hologramTitle="Developer Cases" hologramLabel="// known_cases()">
@@ -294,7 +265,7 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 </Layout>
 
 <script>
-	// ── Desktop typewriter ──────────────────────────────────────────────
+
 	const textToType   = './initialize_module.sh\n> Establishing connection...';
 	const typewriterEl = document.getElementById('typewriter') as HTMLElement;
 	const terminalBoot = document.getElementById('terminal-boot') as HTMLElement;
@@ -332,7 +303,6 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 		obs.observe(terminalBoot);
 	}
 
-	// ── Mobile typewriter ───────────────────────────────────────────────
 	const typewriterElM = document.getElementById('typewriter-m') as HTMLElement;
 	const terminalBootM = document.getElementById('terminal-boot-m') as HTMLElement;
 	const terminalFormM = document.getElementById('terminal-form-m') as HTMLElement;
@@ -369,7 +339,6 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 		obsM.observe(terminalBootM);
 	}
 
-	// ── Web3Forms — desktop ─────────────────────────────────────────────
 	function wireForm(formId: string, btnId: string) {
 		const form = document.getElementById(formId) as HTMLFormElement;
 		if (!form) return;
@@ -420,7 +389,7 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 </script>
 
 <style>
-	/* Global scrollbar */
+	
 	:root {
 		scrollbar-width: thin;
 		scrollbar-color: var(--theme-neon-red) var(--theme-midnight-black);
@@ -429,7 +398,6 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 	::-webkit-scrollbar-track { background: var(--theme-midnight-black); }
 	::-webkit-scrollbar-thumb { background-color: var(--theme-neon-red); border-radius: 0; }
 
-	/* Portrait video crop on mobile */
 	@media (max-width: 640px) {
 		.hero-video,
 		.cases-video {
