@@ -26,7 +26,7 @@ const techStack = [
 ];
 ---
 
-<Layout>
+<Layout title="Code_City — Cases" description="Explore Mirza Hajric's case studies and development projects in frontend engineering, AI solutions, and Umbraco.">
 	
 	<Navigation />
 
@@ -39,10 +39,12 @@ const techStack = [
 				loop
 				muted
 				playsinline
+				aria-label="Decorative background video loop showing futuristic cityscape with rain"
 				class="hero-video absolute top-0 left-0 w-full h-full object-cover scale-[1.15] origin-top z-0 opacity-40 mix-blend-screen"
 			>
 				<source src="/cityRain.webm" type="video/webm" />
 				<source src="/cityRain.mp4" type="video/mp4" />
+				<track kind="captions" src="data:text/vtt," srclang="en" label="None" />
 			</video>
 
 			<div class="relative z-20 w-full lg:w-10/12 max-w-270 mx-auto h-full flex flex-col px-6 lg:px-0">
@@ -121,14 +123,14 @@ const techStack = [
 						<div class="hidden sm:block">
 							<CrtProjectTerminal 
 								title="Qiko"
-								media="/qiko.png"
+								media="/qiko.webp"
 								text="A secure, browser-to-browser chat extension currently in active development. Built for direct, private peer-to-peer communication. More details coming soon."
 							/>
 						</div>
 						<div class="block sm:hidden">
 							<CompactProjectTerminal 
 								title="Qiko"
-								media="/qiko.png"
+								media="/qiko.webp"
 								text="A secure, browser-to-browser chat extension currently in active development. Built for direct, private peer-to-peer communication. More details coming soon."
 							/>
 						</div>
@@ -157,7 +159,7 @@ const techStack = [
 						<div class="hidden sm:block">
 							<CrtProjectTerminal 
 								title="Empire Shield"
-								media="/empire.gif"
+								media="/empire.webp"
 								href="https://empire-cwwxxi9p7-iris94.vercel.app/"
 								text="A classic, fully playable browser RPG. This was the first major project I ever built back when I was teaching myself how to code. I still keep it here as a personal reminder of what pure persistence can achieve when you're starting completely from scratch."
 							/>
@@ -165,7 +167,7 @@ const techStack = [
 						<div class="block sm:hidden">
 							<CompactProjectTerminal 
 								title="Empire Shield"
-								media="/empire.gif"
+								media="/empire.webp"
 								href="https://empire-cwwxxi9p7-iris94.vercel.app/"
 								text="A classic, fully playable browser RPG. This was the first major project I ever built back when I was teaching myself how to code. I still keep it here as a personal reminder of what pure persistence can achieve when you're starting completely from scratch."
 							/>

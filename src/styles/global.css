@@ -3,6 +3,14 @@
 @import "./theme.css";
 @import "./base.css";
 
+:root {
+	scrollbar-width: thin;
+	scrollbar-color: var(--theme-neon-red) var(--theme-midnight-black);
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--theme-midnight-black); }
+::-webkit-scrollbar-thumb { background-color: var(--theme-neon-red); border-radius: 0; }
+
 @layer utilities {
   
   .bg-gradient-retrowave {

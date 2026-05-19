@@ -2,6 +2,18 @@
 import '../styles/global.css';
 import HexRain from '../components/HexRain.astro';
 import { ClientRouter } from 'astro:transitions';
+
+export interface Props {
+	title?: string;
+	description?: string;
+	image?: string;
+}
+
+const {
+	title = 'Iris94 — Portfolio',
+	description = 'Front-end development, Umbraco architecture, and experimental UI design.',
+	image = '/persona.jpg'
+} = Astro.props;
 ---
 <!doctype html>
 <html lang="en">
@@ -11,10 +23,26 @@ import { ClientRouter } from 'astro:transitions';
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={Astro.url} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={new URL(image, Astro.url)} />
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={Astro.url} />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		<meta property="twitter:image" content={new URL(image, Astro.url)} />
+
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
-		<title>Iris94 — Portfolio</title>
+		<title>{title}</title>
 		<ClientRouter />
 		<script>
 			// Force autoplay and reload videos on Astro ClientRouter page transitions

@@ -1,0 +1,138 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navigation from '../../components/Navigation.astro';
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	return posts.map((post: CollectionEntry<'blog'>) => ({
+		params: { id: post.id },
+		props: { post },
+	}));
+}
+
+interface Props {
+	post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Layout title={`${post.data.title} — Iris94`} description={post.data.description}>
+	<Navigation />
+	<main class="w-full min-h-screen pt-24 pb-24 bg-(--theme-midnight-black) relative z-10">
+		<article class="w-full lg:w-8/12 max-w-4xl mx-auto px-6 lg:px-0 relative z-10">
+			
+			<a href="/blog" class="inline-flex items-center gap-2 text-(--theme-neon-cyan) hover:text-(--theme-neon-red) font-mono text-sm tracking-widest uppercase transition-colors mb-12">
+				&lt; BACK_TO_LOGS
+			</a>
+
+			<header class="mb-16 border-b border-[#333] pb-12">
+				<div class="flex gap-2 flex-wrap mb-6">
+					{post.data.tags.map((tag: string) => (
+						<span class="px-2 py-1 text-[10px] uppercase tracking-widest font-mono text-(--theme-midnight-black) bg-(--theme-neon-cyan) font-bold">
+							{tag}
+						</span>
+					))}
+				</div>
+				
+				<h1 class="text-4xl sm:text-5xl md:text-6xl text-(--theme-text-base) mb-6 text-left tracking-wide font-black font-mono leading-tight">
+					{post.data.title}
+				</h1>
+				
+				<div class="flex items-center gap-4 text-(--theme-text-base) opacity-60 font-mono text-sm uppercase tracking-wider">
+					<span>SYS_TIME: {post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+					<span>//</span>
+					<span>AUTHOR: {post.data.author}</span>
+				</div>
+			</header>
+
+			<div class="prose prose-invert prose-lg max-w-none font-mono">
+				<Content />
+			</div>
+
+		</article>
+	</main>
+</Layout>
+
+<style is:global>
+	/* Custom Markdown / Prose styles for the cyberpunk theme */
+	.prose h1, .prose h2, .prose h3, .prose h4 {
+		color: var(--theme-neon-red);
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		font-weight: 900;
+		margin-top: 2.5em;
+		margin-bottom: 1em;
+	}
+	
+	.prose p {
+		color: rgba(255, 255, 255, 0.85);
+		line-height: 1.8;
+		margin-bottom: 1.5em;
+	}
+
+	.prose a {
+		color: var(--theme-neon-cyan);
+		text-decoration: none;
+		border-bottom: 1px dashed var(--theme-neon-cyan);
+		transition: all 0.2s ease;
+	}
+	.prose a:hover {
+		color: var(--theme-neon-red);
+		border-bottom-color: var(--theme-neon-red);
+	}
+
+	.prose strong {
+		color: white;
+		font-weight: bold;
+	}
+
+	.prose code {
+		color: var(--theme-neon-cyan);
+		background: rgba(0, 255, 255, 0.1);
+		padding: 0.2em 0.4em;
+		font-size: 0.9em;
+		border-radius: 2px;
+	}
+
+	.prose pre {
+		background: #0a0a0f !important;
+		border: 1px solid #333;
+		border-left: 3px solid var(--theme-neon-cyan);
+		padding: 1.5em;
+		overflow-x: auto;
+		margin: 2em 0;
+	}
+
+	.prose pre code {
+		background: transparent;
+		padding: 0;
+		color: inherit;
+	}
+
+	.prose blockquote {
+		border-left: 4px solid var(--theme-neon-red);
+		background: rgba(253, 29, 83, 0.05);
+		padding: 1em 1.5em;
+		margin: 2em 0;
+		color: rgba(255, 255, 255, 0.9);
+		font-style: italic;
+	}
+	
+	.prose ul, .prose ol {
+		color: rgba(255, 255, 255, 0.85);
+		margin-bottom: 2em;
+		padding-left: 1.5em;
+	}
+
+	.prose li {
+		margin-bottom: 0.5em;
+	}
+
+	.prose ul li::marker {
+		color: var(--theme-neon-cyan);
+	}
+</style>

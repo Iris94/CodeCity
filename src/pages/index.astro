@@ -13,7 +13,7 @@ import githubIcon from '../assets/github.svg?raw';
 import linkedinIcon from '../assets/linkedin.svg?raw';
 ---
 
-<Layout>
+<Layout title="Code_City — Mirza Hajric" description="Portfolio of Mirza Hajric - Frontend Developer and Umbraco Specialist built with a high-fidelity retro cyberpunk aesthetic.">
 	
 	<Navigation />
 
@@ -26,10 +26,12 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 				loop
 				muted
 				playsinline
+				aria-label="Decorative background video loop showing retro grid layout"
 				class="hero-video absolute top-0 left-0 w-full h-full object-cover scale-[1.15] origin-top z-0 opacity-40 mix-blend-screen"
 			>
 				<source src="/landingPageVIdeo.webm" type="video/webm" />
 				<source src="/landingPageVIdeo.mp4" type="video/mp4" />
+				<track kind="captions" src="data:text/vtt," srclang="en" label="None" />
 			</video>
 
 			<div class="relative z-20 w-full lg:w-10/12 max-w-270 mx-auto h-full flex flex-col px-6 lg:px-0">
@@ -246,10 +248,12 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 			
 			<video
 				autoplay loop muted playsinline
+				aria-label="Decorative background video loop showing cyberspace landscape"
 				class="cases-video absolute top-0 left-0 w-full h-full object-cover z-0 opacity-40 mix-blend-screen"
 			>
 				<source src="/caseWrapper.webm" type="video/webm" />
 				<source src="/caseWrapper.mp4" type="video/mp4" />
+				<track kind="captions" src="data:text/vtt," srclang="en" label="None" />
 			</video>
 
 			<div class="relative z-20 w-full lg:w-10/12 max-w-270 mx-auto h-full flex flex-col px-6 lg:px-0">
@@ -394,15 +398,6 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 </script>
 
 <style>
-	
-	:root {
-		scrollbar-width: thin;
-		scrollbar-color: var(--theme-neon-red) var(--theme-midnight-black);
-	}
-	::-webkit-scrollbar { width: 6px; }
-	::-webkit-scrollbar-track { background: var(--theme-midnight-black); }
-	::-webkit-scrollbar-thumb { background-color: var(--theme-neon-red); border-radius: 0; }
-
 	@media (max-width: 640px) {
 		.hero-video,
 		.cases-video {
