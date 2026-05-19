@@ -232,33 +232,43 @@ const { rotate = false, sysId = "IRIS_94" } = Astro.props;
 </style>
 
 <script>
+  let compactHexInterval: number | undefined;
 
-  const hexBar = document.getElementById('cdpad-hex-bar');
-  if (hexBar) {
-    const chars = '0123456789ABCDEF ';
-    const fill = () => Array.from({ length: 60 }, () =>
-      chars[Math.floor(Math.random() * chars.length)]
-    ).join('');
-    hexBar.textContent = fill();
-    setInterval(() => { hexBar.textContent = fill(); }, 300);
+  function initCompactTerminal() {
+    if (compactHexInterval) {
+      clearInterval(compactHexInterval);
+      compactHexInterval = undefined;
+    }
+
+    const hexBar = document.getElementById('cdpad-hex-bar');
+    if (hexBar) {
+      const chars = '0123456789ABCDEF ';
+      const fill = () => Array.from({ length: 60 }, () =>
+        chars[Math.floor(Math.random() * chars.length)]
+      ).join('');
+      hexBar.textContent = fill();
+      compactHexInterval = setInterval(() => { hexBar.textContent = fill(); }, 300) as any;
+    }
+
+    const pads = document.querySelectorAll('.cdpad-outer[data-rotate="true"]');
+    pads.forEach((pad) => {
+      const el = pad as HTMLElement;
+      el.addEventListener('mousemove', (e) => {
+        const ev = e as MouseEvent;
+        const rect = el.getBoundingClientRect();
+        const rx = ((ev.clientY - rect.top  - rect.height / 2) / (rect.height / 2)) * -5;
+        const ry = ((ev.clientX - rect.left - rect.width  / 2) / (rect.width  / 2)) *  5;
+        el.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      });
+      el.addEventListener('mouseleave', () => {
+        el.style.transition = 'transform 0.5s ease-out';
+        el.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+      });
+      el.addEventListener('mouseenter', () => {
+        el.style.transition = 'transform 0.1s ease-out';
+      });
+    });
   }
 
-  const pads = document.querySelectorAll('.cdpad-outer[data-rotate="true"]');
-  pads.forEach((pad) => {
-    const el = pad as HTMLElement;
-    el.addEventListener('mousemove', (e) => {
-      const ev = e as MouseEvent;
-      const rect = el.getBoundingClientRect();
-      const rx = ((ev.clientY - rect.top  - rect.height / 2) / (rect.height / 2)) * -5;
-      const ry = ((ev.clientX - rect.left - rect.width  / 2) / (rect.width  / 2)) *  5;
-      el.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg)`;
-    });
-    el.addEventListener('mouseleave', () => {
-      el.style.transition = 'transform 0.5s ease-out';
-      el.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
-    });
-    el.addEventListener('mouseenter', () => {
-      el.style.transition = 'transform 0.1s ease-out';
-    });
-  });
+  document.addEventListener('astro:page-load', initCompactTerminal);
 </script>

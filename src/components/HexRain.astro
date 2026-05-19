@@ -5,10 +5,10 @@
 <canvas id="hex-rain-canvas" class="fixed inset-0 w-full h-full pointer-events-none" style="z-index: 1;"></canvas>
 
 <script>
-	const canvas = document.getElementById('hex-rain-canvas') as HTMLCanvasElement;
-	const ctx = canvas.getContext('2d')!;
-
 	const COLOR = '#FD1D53'; // --theme-neon-red
+	const MAX_PARTICLES = 18;
+	const HOLD_DURATION = 5000; // 5 seconds visible
+	const FADE_SPEED = 0.012;
 
 	type Particle = {
 		x: number;
@@ -20,93 +20,114 @@
 		timer: number;
 	};
 
-	const particles: Particle[] = [];
-	const MAX_PARTICLES = 18;
-	const HOLD_DURATION = 5000; // 5 seconds visible
-	const FADE_SPEED = 0.012;
+	let activeAnimationFrameId: number | undefined;
+	let resizeListener: (() => void) | undefined;
 
-	function randomHex(): string {
-		const r = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
-		const g = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
-		const b = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
-
-		if (Math.random() > 0.5) {
-			return `#${r[0]}${g[0]}${b[0]}`;
+	function initHexRain() {
+		if (activeAnimationFrameId) {
+			cancelAnimationFrame(activeAnimationFrameId);
+			activeAnimationFrameId = undefined;
 		}
-		return `#${r}${g}${b}`;
-	}
+		if (resizeListener) {
+			window.removeEventListener('resize', resizeListener);
+			resizeListener = undefined;
+		}
 
-	function spawnParticle(): Particle {
-		return {
-			x: Math.random() * canvas.width,
-			y: Math.random() * canvas.height, // full viewport height
-			text: randomHex(),
-			alpha: 0,
-			speed: 0.2 + Math.random() * 0.3,
-			phase: 'fadein',
-			timer: 0,
-		};
-	}
+		const canvas = document.getElementById('hex-rain-canvas') as HTMLCanvasElement;
+		if (!canvas) return;
+		const ctx = canvas.getContext('2d')!;
 
-	function resize() {
-		canvas.width = window.innerWidth;
-		canvas.height = window.innerHeight;
-	}
-	resize();
-	window.addEventListener('resize', resize);
+		const particles: Particle[] = [];
 
-	for (let i = 0; i < MAX_PARTICLES; i++) {
-		setTimeout(() => {
-			const p = spawnParticle();
-			p.alpha = Math.random(); // random starting alpha for variety
-			p.phase = 'hold';
-			p.timer = Math.random() * HOLD_DURATION;
-			particles.push(p);
-		}, Math.random() * 8000);
-	}
+		function randomHex(): string {
+			const r = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
+			const g = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
+			const b = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
 
-	let lastTime = 0;
-	function loop(time: number) {
-		const dt = time - lastTime;
-		lastTime = time;
+			if (Math.random() > 0.5) {
+				return `#${r[0]}${g[0]}${b[0]}`;
+			}
+			return `#${r}${g}${b}`;
+		}
 
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		ctx.font = '11px monospace';
+		function spawnParticle(): Particle {
+			return {
+				x: Math.random() * canvas.width,
+				y: Math.random() * canvas.height,
+				text: randomHex(),
+				alpha: 0,
+				speed: 0.2 + Math.random() * 0.3,
+				phase: 'fadein',
+				timer: 0,
+			};
+		}
 
-		for (let i = particles.length - 1; i >= 0; i--) {
-			const p = particles[i];
+		function resize() {
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+		}
+		resize();
+		resizeListener = resize;
+		window.addEventListener('resize', resize);
 
-			if (p.phase === 'fadein') {
-				p.alpha += FADE_SPEED;
-				if (p.alpha >= 0.7) {
-					p.alpha = 0.7;
-					p.phase = 'hold';
-					p.timer = 0;
-				}
-			} else if (p.phase === 'hold') {
-				p.timer += dt;
-				p.y += p.speed; // gentle drift downward
-				if (p.timer >= HOLD_DURATION) {
-					p.phase = 'fadeout';
-				}
-			} else if (p.phase === 'fadeout') {
-				p.alpha -= FADE_SPEED;
-				p.y += p.speed;
-				if (p.alpha <= 0) {
+		for (let i = 0; i < MAX_PARTICLES; i++) {
+			setTimeout(() => {
+				const p = spawnParticle();
+				p.alpha = Math.random();
+				p.phase = 'hold';
+				p.timer = Math.random() * HOLD_DURATION;
+				particles.push(p);
+			}, Math.random() * 8000);
+		}
 
-					particles[i] = spawnParticle();
-					continue;
-				}
+		let lastTime = 0;
+		function loop(time: number) {
+			if (!document.getElementById('hex-rain-canvas')) {
+				return;
 			}
 
-			ctx.globalAlpha = p.alpha;
-			ctx.fillStyle = COLOR;
-			ctx.fillText(p.text, p.x, p.y);
+			const dt = time - lastTime;
+			lastTime = time;
+
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			ctx.font = '11px monospace';
+
+			for (let i = particles.length - 1; i >= 0; i--) {
+				const p = particles[i];
+
+				if (p.phase === 'fadein') {
+					p.alpha += FADE_SPEED;
+					if (p.alpha >= 0.7) {
+						p.alpha = 0.7;
+						p.phase = 'hold';
+						p.timer = 0;
+					}
+				} else if (p.phase === 'hold') {
+					p.timer += dt;
+					p.y += p.speed;
+					if (p.timer >= HOLD_DURATION) {
+						p.phase = 'fadeout';
+					}
+				} else if (p.phase === 'fadeout') {
+					p.alpha -= FADE_SPEED;
+					p.y += p.speed;
+					if (p.alpha <= 0) {
+						particles[i] = spawnParticle();
+						continue;
+					}
+				}
+
+				ctx.globalAlpha = p.alpha;
+				ctx.fillStyle = COLOR;
+				ctx.fillText(p.text, p.x, p.y);
+			}
+
+			ctx.globalAlpha = 1;
+			activeAnimationFrameId = requestAnimationFrame(loop);
 		}
 
-		ctx.globalAlpha = 1;
-		requestAnimationFrame(loop);
+		activeAnimationFrameId = requestAnimationFrame(loop);
 	}
 
-	requestAnimationFrame(loop);
+	document.addEventListener('astro:page-load', initHexRain);
 </script>

@@ -8,21 +8,21 @@ import CrtProjectTerminal from '../components/CrtProjectTerminal.astro';
 import CompactProjectTerminal from '../components/CompactProjectTerminal.astro';
 
 const techStack = [
-  { name: 'HTML', type: 'text', text: 'HTML' },
-  { name: 'CSS', type: 'text', text: 'CSS' },
-  { name: 'JavaScript', type: 'text', text: 'JavaScript' },
-  { name: 'TypeScript', type: 'text', text: 'TypeScript' },
-  { name: 'Lit', type: 'text', text: 'Lit' },
-  { name: 'Svelte', type: 'text', text: 'Svelte' },
-  { name: 'Astro', type: 'text', text: 'Astro' },
-  { name: 'React', type: 'text', text: 'React' },
-  { name: 'Angular', type: 'text', text: 'Angular' },
-  { name: 'Tailwind', type: 'text', text: 'Tailwind' },
-  { name: '.NET', type: 'text', text: '.NET' },
-  { name: 'C#', type: 'text', text: 'C#' },
-  { name: 'Figma', type: 'text', text: 'Figma' },
+  { name: 'AI', type: 'text', text: '[AI]' },
   { name: 'Umbraco', type: 'text', text: 'Umbraco' },
-  { name: 'AI', type: 'text', text: '[AI]' }
+  { name: 'C#', type: 'text', text: 'C#' },
+  { name: '.NET', type: 'text', text: '.NET' },
+  { name: 'TypeScript', type: 'text', text: 'TypeScript' },
+  { name: 'Astro', type: 'text', text: 'Astro' },
+  { name: 'Svelte', type: 'text', text: 'Svelte' },
+  { name: 'React', type: 'text', text: 'React' },
+  { name: 'Lit', type: 'text', text: 'Lit' },
+  { name: 'Angular', type: 'text', text: 'Angular' },
+  { name: 'JavaScript', type: 'text', text: 'JavaScript' },
+  { name: 'Tailwind', type: 'text', text: 'Tailwind' },
+  { name: 'Figma', type: 'text', text: 'Figma' },
+  { name: 'HTML', type: 'text', text: 'HTML' },
+  { name: 'CSS', type: 'text', text: 'CSS' }
 ];
 ---
 
@@ -32,16 +32,17 @@ const techStack = [
 
 	<main class="w-full min-h-screen bg-(--theme-midnight-black) pb-37.5">
 
-		<section class="relative w-full overflow-hidden bg-(--theme-midnight-black)" style="height: 85vh; z-index: 20;">
+		<section class="relative w-full overflow-hidden bg-(--theme-midnight-black)" style="height: 100vh; z-index: 20;">
 			
 			<video
-				src="/cityRain.mp4"
 				autoplay
 				loop
 				muted
 				playsinline
 				class="hero-video absolute top-0 left-0 w-full h-full object-cover scale-[1.15] origin-top z-0 opacity-40 mix-blend-screen"
 			>
+				<source src="/cityRain.webm" type="video/webm" />
+				<source src="/cityRain.mp4" type="video/mp4" />
 			</video>
 
 			<div class="relative z-20 w-full lg:w-10/12 max-w-270 mx-auto h-full flex flex-col px-6 lg:px-0">
@@ -59,7 +60,7 @@ const techStack = [
 			<div class="w-full lg:w-10/12 max-w-270 mx-auto px-6 lg:px-0 relative z-10">
 
 				<span class="block text-[10px] font-mono text-(--theme-neon-red) tracking-widest uppercase mb-3 opacity-70">
-
+					// tech_stack
 				</span>
 
 				<div class="border-t border-(--theme-neon-red) pt-14">
@@ -99,7 +100,7 @@ const techStack = [
 			<div class="w-full lg:w-10/12 max-w-270 mx-auto px-6 lg:px-0 relative z-10">
 
 				<span class="block text-[10px] font-mono text-(--theme-neon-red) tracking-widest uppercase mb-3 opacity-70">
-
+					// project_list
 				</span>
 
 				<div class="border-t border-(--theme-neon-red) pt-14 space-y-16">

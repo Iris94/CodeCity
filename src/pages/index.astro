@@ -22,13 +22,14 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 		<section class="relative w-full h-screen overflow-hidden bg-(--theme-midnight-black)" style="z-index: 20;">
 			
 			<video
-				src="/landingPageVIdeo.mp4"
 				autoplay
 				loop
 				muted
 				playsinline
 				class="hero-video absolute top-0 left-0 w-full h-full object-cover scale-[1.15] origin-top z-0 opacity-40 mix-blend-screen"
 			>
+				<source src="/landingPageVIdeo.webm" type="video/webm" />
+				<source src="/landingPageVIdeo.mp4" type="video/mp4" />
 			</video>
 
 			<div class="relative z-20 w-full lg:w-10/12 max-w-270 mx-auto h-full flex flex-col px-6 lg:px-0">
@@ -61,7 +62,7 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 			<div class="w-full lg:w-10/12 max-w-270 mx-auto px-6 lg:px-0 relative z-10">
 
 				<span class="block text-[10px] font-mono text-(--theme-neon-red) tracking-widest uppercase mb-3 opacity-70">
-
+					// developer_profile
 				</span>
 
 				<div class="border-t border-(--theme-neon-red) pt-14">
@@ -160,7 +161,7 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 			<div class="w-full lg:w-10/12 max-w-270 mx-auto px-6 lg:px-0 relative z-10">
 
 				<span class="block text-[10px] font-mono text-(--theme-neon-red) tracking-widest uppercase mb-3 opacity-70">
-
+					// connection_terminal
 				</span>
 
 				<div class="border-t border-(--theme-neon-red) pt-14">
@@ -244,10 +245,11 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 		<section class="relative w-full overflow-hidden bg-(--theme-midnight-black)" style="height: 85vh; z-index: 20;">
 			
 			<video
-				src="/caseWrapper.mp4"
 				autoplay loop muted playsinline
 				class="cases-video absolute top-0 left-0 w-full h-full object-cover z-0 opacity-40 mix-blend-screen"
 			>
+				<source src="/caseWrapper.webm" type="video/webm" />
+				<source src="/caseWrapper.mp4" type="video/mp4" />
 			</video>
 
 			<div class="relative z-20 w-full lg:w-10/12 max-w-270 mx-auto h-full flex flex-col px-6 lg:px-0">
@@ -265,34 +267,35 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 </Layout>
 
 <script>
+	function initPage() {
+		const textToType   = './initialize_module.sh\n> Establishing connection...';
+		const typewriterEl = document.getElementById('typewriter') as HTMLElement;
+		const terminalBoot = document.getElementById('terminal-boot') as HTMLElement;
+		const terminalForm = document.getElementById('terminal-form') as HTMLElement;
+		const blinkCursor  = document.getElementById('blink-cursor') as HTMLElement;
 
-	const textToType   = './initialize_module.sh\n> Establishing connection...';
-	const typewriterEl = document.getElementById('typewriter') as HTMLElement;
-	const terminalBoot = document.getElementById('terminal-boot') as HTMLElement;
-	const terminalForm = document.getElementById('terminal-form') as HTMLElement;
-	const blinkCursor  = document.getElementById('blink-cursor') as HTMLElement;
+		if (!typewriterEl || !terminalBoot) return;
 
-	let i = 0;
-	let typingStarted = false;
+		let i = 0;
+		let typingStarted = false;
 
-	function typeWriter() {
-		if (i < textToType.length && typewriterEl) {
-			typewriterEl.innerHTML += textToType.charAt(i) === '\n' ? '<br>' : textToType.charAt(i);
-			i++;
-			setTimeout(typeWriter, 50);
-		} else {
-			setTimeout(() => {
-				if (terminalBoot) terminalBoot.style.display = 'none';
-				if (blinkCursor)  blinkCursor.style.display  = 'none';
-				if (terminalForm) {
-					terminalForm.classList.remove('hidden');
-					terminalForm.classList.add('flex');
-				}
-			}, 1000);
+		function typeWriter() {
+			if (i < textToType.length && typewriterEl) {
+				typewriterEl.innerHTML += textToType.charAt(i) === '\n' ? '<br>' : textToType.charAt(i);
+				i++;
+				setTimeout(typeWriter, 50);
+			} else {
+				setTimeout(() => {
+					if (terminalBoot) terminalBoot.style.display = 'none';
+					if (blinkCursor)  blinkCursor.style.display  = 'none';
+					if (terminalForm) {
+						terminalForm.classList.remove('hidden');
+						terminalForm.classList.add('flex');
+					}
+				}, 1000);
+			}
 		}
-	}
 
-	if (terminalBoot) {
 		const obs = new IntersectionObserver((entries) => {
 			if (entries[0].isIntersecting && !typingStarted) {
 				typingStarted = true;
@@ -301,91 +304,93 @@ import linkedinIcon from '../assets/linkedin.svg?raw';
 			}
 		});
 		obs.observe(terminalBoot);
-	}
 
-	const typewriterElM = document.getElementById('typewriter-m') as HTMLElement;
-	const terminalBootM = document.getElementById('terminal-boot-m') as HTMLElement;
-	const terminalFormM = document.getElementById('terminal-form-m') as HTMLElement;
-	const blinkCursorM  = document.getElementById('blink-cursor-m') as HTMLElement;
+		const typewriterElM = document.getElementById('typewriter-m') as HTMLElement;
+		const terminalBootM = document.getElementById('terminal-boot-m') as HTMLElement;
+		const terminalFormM = document.getElementById('terminal-form-m') as HTMLElement;
+		const blinkCursorM  = document.getElementById('blink-cursor-m') as HTMLElement;
 
-	let im = 0;
-	let typingStartedM = false;
+		let im = 0;
+		let typingStartedM = false;
 
-	function typeWriterM() {
-		if (im < textToType.length && typewriterElM) {
-			typewriterElM.innerHTML += textToType.charAt(im) === '\n' ? '<br>' : textToType.charAt(im);
-			im++;
-			setTimeout(typeWriterM, 60);
-		} else {
-			setTimeout(() => {
-				if (terminalBootM) terminalBootM.style.display = 'none';
-				if (blinkCursorM)  blinkCursorM.style.display  = 'none';
-				if (terminalFormM) {
-					terminalFormM.classList.remove('hidden');
-					terminalFormM.classList.add('flex');
-				}
-			}, 800);
-		}
-	}
-
-	if (terminalBootM) {
-		const obsM = new IntersectionObserver((entries) => {
-			if (entries[0].isIntersecting && !typingStartedM) {
-				typingStartedM = true;
-				setTimeout(typeWriterM, 600);
-				obsM.disconnect();
+		function typeWriterM() {
+			if (im < textToType.length && typewriterElM) {
+				typewriterElM.innerHTML += textToType.charAt(im) === '\n' ? '<br>' : textToType.charAt(im);
+				im++;
+				setTimeout(typeWriterM, 60);
+			} else {
+				setTimeout(() => {
+					if (terminalBootM) terminalBootM.style.display = 'none';
+					if (blinkCursorM)  blinkCursorM.style.display  = 'none';
+					if (terminalFormM) {
+						terminalFormM.classList.remove('hidden');
+						terminalFormM.classList.add('flex');
+					}
+				}, 800);
 			}
-		});
-		obsM.observe(terminalBootM);
-	}
+		}
 
-	function wireForm(formId: string, btnId: string) {
-		const form = document.getElementById(formId) as HTMLFormElement;
-		if (!form) return;
-		const btn = document.getElementById(btnId) as HTMLButtonElement;
+		if (terminalBootM) {
+			const obsM = new IntersectionObserver((entries) => {
+				if (entries[0].isIntersecting && !typingStartedM) {
+					typingStartedM = true;
+					setTimeout(typeWriterM, 600);
+					obsM.disconnect();
+				}
+			});
+			obsM.observe(terminalBootM);
+		}
 
-		form.addEventListener('submit', async (e) => {
-			e.preventDefault();
-			const formData = new FormData(form);
-			const originalText = btn.innerHTML;
+		function wireForm(formId: string, btnId: string) {
+			const form = document.getElementById(formId) as HTMLFormElement;
+			if (!form) return;
+			const btn = document.getElementById(btnId) as HTMLButtonElement;
 
-			btn.innerHTML  = '[ TRANSMITTING... ]';
-			btn.disabled   = true;
-			btn.style.opacity = '0.5';
+			form.addEventListener('submit', async (e) => {
+				e.preventDefault();
+				const formData = new FormData(form);
+				const originalText = btn.innerHTML;
 
-			try {
-				const res  = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData });
-				const data = await res.json();
+				btn.innerHTML  = '[ TRANSMITTING... ]';
+				btn.disabled   = true;
+				btn.style.opacity = '0.5';
 
-				if (res.ok) {
-					btn.innerHTML = '[ TRANSMISSION SUCCESS ]';
-					btn.style.color       = '#00ff00';
-					btn.style.borderColor = '#00ff00';
-					form.reset();
-					setTimeout(() => {
+				try {
+					const res  = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData });
+					const data = await res.json();
+
+					if (res.ok) {
+						btn.innerHTML = '[ TRANSMISSION SUCCESS ]';
+						btn.style.color       = '#00ff00';
+						btn.style.borderColor = '#00ff00';
+						form.reset();
+						setTimeout(() => {
+							btn.innerHTML = originalText;
+							btn.disabled  = false;
+							btn.style.opacity     = '1';
+							btn.style.color       = '';
+							btn.style.borderColor = '';
+						}, 5000);
+					} else {
+						alert('Error: ' + data.message);
 						btn.innerHTML = originalText;
 						btn.disabled  = false;
-						btn.style.opacity     = '1';
-						btn.style.color       = '';
-						btn.style.borderColor = '';
-					}, 5000);
-				} else {
-					alert('Error: ' + data.message);
+						btn.style.opacity = '1';
+					}
+				} catch {
+					alert('Terminal error. Please try again.');
 					btn.innerHTML = originalText;
 					btn.disabled  = false;
 					btn.style.opacity = '1';
 				}
-			} catch {
-				alert('Terminal error. Please try again.');
-				btn.innerHTML = originalText;
-				btn.disabled  = false;
-				btn.style.opacity = '1';
-			}
-		});
+			});
+		}
+
+		wireForm('contact-form',   'submit-btn');
+		wireForm('contact-form-m', 'submit-btn-m');
 	}
 
-	wireForm('contact-form',   'submit-btn');
-	wireForm('contact-form-m', 'submit-btn-m');
+	document.addEventListener('astro:page-load', initPage);
 </script>
 
 <style>

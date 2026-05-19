@@ -74,23 +74,27 @@ const { rotate = false, sysId = "SYS_ID: IRIS_94", label = "POLICE" } = Astro.pr
 </style>
 
 <script>
-	const panels = document.querySelectorAll('.wanted-terminal-wrapper[data-rotate="true"]');
+	function initWantedTerminal() {
+		const panels = document.querySelectorAll('.wanted-terminal-wrapper[data-rotate="true"]');
 
-	panels.forEach((panel) => {
-		const el = panel as HTMLElement;
-		el.addEventListener('mousemove', (e) => {
-			const ev = e as MouseEvent;
-			const rect = el.getBoundingClientRect();
-			const rotateX = ((ev.clientY - rect.top - rect.height / 2) / (rect.height / 2)) * -4;
-			const rotateY = ((ev.clientX - rect.left - rect.width / 2) / (rect.width / 2)) * 4;
-			el.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+		panels.forEach((panel) => {
+			const el = panel as HTMLElement;
+			el.addEventListener('mousemove', (e) => {
+				const ev = e as MouseEvent;
+				const rect = el.getBoundingClientRect();
+				const rotateX = ((ev.clientY - rect.top - rect.height / 2) / (rect.height / 2)) * -4;
+				const rotateY = ((ev.clientX - rect.left - rect.width / 2) / (rect.width / 2)) * 4;
+				el.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+			});
+			el.addEventListener('mouseleave', () => {
+				el.style.transition = 'transform 0.5s ease-out';
+				el.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg)';
+			});
+			el.addEventListener('mouseenter', () => {
+				el.style.transition = 'transform 0.1s ease-out';
+			});
 		});
-		el.addEventListener('mouseleave', () => {
-			el.style.transition = 'transform 0.5s ease-out';
-			el.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg)';
-		});
-		el.addEventListener('mouseenter', () => {
-			el.style.transition = 'transform 0.1s ease-out';
-		});
-	});
+	}
+
+	document.addEventListener('astro:page-load', initWantedTerminal);
 </script>

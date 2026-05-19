@@ -297,27 +297,37 @@ const { maxWidth = "max-w-[900px]", sysId = "IRIS_94" } = Astro.props;
 </style>
 
 <script>
+  let hexStreamInterval: number | undefined;
 
-  const streamEl = document.getElementById('crt-hex-stream');
-  if (streamEl) {
-    const chars = '0123456789ABCDEF ';
-    let content = '';
-
-    for (let i = 0; i < 400; i++) {
-      content += chars[Math.floor(Math.random() * chars.length)];
-      if (i % 24 === 23) content += '\n';
+  function initCrtTerminal() {
+    if (hexStreamInterval) {
+      clearInterval(hexStreamInterval);
+      hexStreamInterval = undefined;
     }
-    streamEl.textContent = content;
 
-    setInterval(() => {
-      const newChars = Array.from({ length: 8 }, () =>
-        chars[Math.floor(Math.random() * chars.length)]
-      ).join('') + '\n';
-      streamEl.textContent = (streamEl.textContent ?? '') + newChars;
+    const streamEl = document.getElementById('crt-hex-stream');
+    if (streamEl) {
+      const chars = '0123456789ABCDEF ';
+      let content = '';
 
-      if ((streamEl.textContent?.length ?? 0) > 600) {
-        streamEl.textContent = streamEl.textContent?.slice(-500) ?? '';
+      for (let i = 0; i < 400; i++) {
+        content += chars[Math.floor(Math.random() * chars.length)];
+        if (i % 24 === 23) content += '\n';
       }
-    }, 200);
+      streamEl.textContent = content;
+
+      hexStreamInterval = setInterval(() => {
+        const newChars = Array.from({ length: 8 }, () =>
+          chars[Math.floor(Math.random() * chars.length)]
+        ).join('') + '\n';
+        streamEl.textContent = (streamEl.textContent ?? '') + newChars;
+
+        if ((streamEl.textContent?.length ?? 0) > 600) {
+          streamEl.textContent = streamEl.textContent?.slice(-500) ?? '';
+        }
+      }, 200) as any;
+    }
   }
+
+  document.addEventListener('astro:page-load', initCrtTerminal);
 </script>

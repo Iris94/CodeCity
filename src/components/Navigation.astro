@@ -1,6 +1,10 @@
 ---
-
 import { Play, Pause } from '@lucide/astro';
+
+const pathname = Astro.url.pathname;
+const isHome = pathname === '/' || pathname === '';
+const isCases = pathname.startsWith('/cases');
+const isBlog = pathname.startsWith('/blog');
 ---
 
 <div class="nav-wrapper fixed top-0 left-0 right-0 z-50 flex justify-center pt-2 sm:pt-4 px-2 sm:px-4">
@@ -18,37 +22,47 @@ import { Play, Pause } from '@lucide/astro';
 
     <div class="relative flex justify-between items-center w-full px-2 sm:px-4 py-1.5 gap-3 sm:gap-6">
 
-      <div class="flex items-center gap-3 sm:gap-6 min-w-0">
-        <a href="/" class="text-(--theme-neon-cyan) text-lg sm:text-xl hover:text-(--theme-text-base) transition-colors uppercase font-bold font-mono tracking-widest shrink-0">
-          IRIS_94
-        </a>
+      <!-- Left: Synth Radio Button -->
+      <button
+        id="radio-btn"
+        class="flex items-center gap-2 text-(--theme-text-base) hover:text-(--theme-neon-cyan) hover:scale-105 hover:drop-shadow-[0_0_8px_rgba(45,226,230,0.5)] cursor-pointer transition-all duration-300 font-mono text-xs tracking-widest group shrink-0"
+        aria-label="Toggle Synth Radio"
+      >
+        <span id="radio-icon-play">
+          <Play size={16} />
+        </span>
+        <span id="radio-icon-pause" class="hidden">
+          <Pause size={16} />
+        </span>
+        <span id="radio-label" class="hidden sm:inline">Play background music</span>
+        <span id="radio-song" class="text-(--theme-neon-cyan) hidden truncate max-w-45 sm:max-w-65"></span>
+      </button>
 
-        <button
-          id="radio-btn"
-          class="flex items-center gap-2 text-(--theme-text-base) hover:text-(--theme-neon-cyan) hover:scale-105 hover:drop-shadow-[0_0_8px_rgba(45,226,230,0.5)] transition-all duration-300 font-mono text-xs tracking-widest group shrink-0"
-          aria-label="Toggle Synth Radio"
-        >
-          
-          <span id="radio-icon-play">
-            <Play size={16} />
-          </span>
-          
-          <span id="radio-icon-pause" class="hidden">
-            <Pause size={16} />
-          </span>
-
-          <span id="radio-label" class="hidden sm:inline">Play background music</span>
-          
-          <span id="radio-song" class="text-(--theme-neon-cyan) hidden truncate max-w-45 sm:max-w-65"></span>
-        </button>
-      </div>
-
-      <ul class="flex items-center gap-3 sm:gap-10 text-(--theme-neon-red) font-mono text-[10px] sm:text-sm tracking-widest shrink-0">
+      <!-- Right: Links (Code_City, Cases, Blog) -->
+      <ul class="flex items-center gap-3 sm:gap-10 font-mono text-[10px] sm:text-sm tracking-widest shrink-0">
         <li>
-          <a href="/cases" class="hover:text-(--theme-neon-cyan) transition-colors duration-300 uppercase">[Cases]</a>
+          <a
+            href="/"
+            class={`transition-colors duration-300 uppercase ${isHome ? 'text-(--theme-neon-cyan)' : 'text-(--theme-neon-red) hover:text-(--theme-neon-cyan)'}`}
+          >
+            [Code_City]
+          </a>
         </li>
         <li>
-          <a href="/blog" class="hover:text-(--theme-neon-cyan) transition-colors duration-300 uppercase">[Blog]</a>
+          <a
+            href="/cases"
+            class={`transition-colors duration-300 uppercase ${isCases ? 'text-(--theme-neon-cyan)' : 'text-(--theme-neon-red) hover:text-(--theme-neon-cyan)'}`}
+          >
+            [Cases]
+          </a>
+        </li>
+        <li>
+          <a
+            href="/blog"
+            class={`transition-colors duration-300 uppercase ${isBlog ? 'text-(--theme-neon-cyan)' : 'text-(--theme-neon-red) hover:text-(--theme-neon-cyan)'}`}
+          >
+            [Blog]
+          </a>
         </li>
       </ul>
     </div>
@@ -58,22 +72,18 @@ import { Play, Pause } from '@lucide/astro';
   </nav>
 </div>
 
-<audio id="radio-audio" src="https://stream.nightride.fm/nightride.mp3" preload="none" style="display:none;"></audio>
+<audio id="radio-audio" src="https://stream.nightride.fm/nightride.mp3" preload="none" style="display:none;" transition:persist></audio>
 
 <script>
-  const audio = document.getElementById('radio-audio') as HTMLAudioElement;
-  const btn = document.getElementById('radio-btn') as HTMLButtonElement;
-  const iconPlay = document.getElementById('radio-icon-play') as HTMLElement;
-  const iconPause = document.getElementById('radio-icon-pause') as HTMLElement;
-  const labelEl = document.getElementById('radio-label') as HTMLSpanElement;
-  const songEl = document.getElementById('radio-song') as HTMLSpanElement;
-
-  let playing = false;
   let eventSource: EventSource | null = null;
+  let currentSongTitle = '';
+  let activeSongEl: HTMLSpanElement | null = null;
 
-  audio.volume = 0.15;
-
-  function startMetadata() {
+  function startMetadata(songEl: HTMLSpanElement) {
+    activeSongEl = songEl;
+    if (currentSongTitle && activeSongEl) {
+      activeSongEl.textContent = currentSongTitle;
+    }
     if (eventSource) return;
     eventSource = new EventSource('https://nightride.fm/meta');
     eventSource.onmessage = (event) => {
@@ -82,8 +92,10 @@ import { Play, Pause } from '@lucide/astro';
         const data = JSON.parse(event.data);
         const station = data.find((d: any) => d.station === 'nightride');
         if (station) {
-          const title = `${station.title} — ${station.artist}`;
-          songEl.textContent = title;
+          currentSongTitle = `${station.title} — ${station.artist}`;
+          if (activeSongEl) {
+            activeSongEl.textContent = currentSongTitle;
+          }
         }
       } catch {}
     };
@@ -94,32 +106,58 @@ import { Play, Pause } from '@lucide/astro';
       eventSource.close();
       eventSource = null;
     }
-    songEl.textContent = '';
+    currentSongTitle = '';
+    if (activeSongEl) {
+      activeSongEl.textContent = '';
+    }
   }
 
-  btn.addEventListener('click', async () => {
-    if (!playing) {
+  document.addEventListener('astro:page-load', () => {
+    const audio = document.getElementById('radio-audio') as HTMLAudioElement;
+    const btn = document.getElementById('radio-btn') as HTMLButtonElement;
+    const iconPlay = document.getElementById('radio-icon-play') as HTMLElement;
+    const iconPause = document.getElementById('radio-icon-pause') as HTMLElement;
+    const labelEl = document.getElementById('radio-label') as HTMLSpanElement;
+    const songEl = document.getElementById('radio-song') as HTMLSpanElement;
 
-      try {
-        await audio.play();
-        playing = true;
-        iconPlay.classList.add('hidden');
-        iconPause.classList.remove('hidden');
-        labelEl.classList.add('hidden');
-        songEl.classList.remove('hidden');
-        startMetadata();
-      } catch (e) {
-        console.error('Audio play failed', e);
-      }
+    if (!audio || !btn) return;
+
+    audio.volume = 0.15;
+
+    if (!audio.paused && audio.src) {
+      iconPlay.classList.add('hidden');
+      iconPause.classList.remove('hidden');
+      labelEl.classList.add('hidden');
+      songEl.classList.remove('hidden');
+      startMetadata(songEl);
     } else {
-
-      audio.pause();
-      playing = false;
       iconPlay.classList.remove('hidden');
       iconPause.classList.add('hidden');
       labelEl.classList.remove('hidden');
       songEl.classList.add('hidden');
       stopMetadata();
     }
+
+    btn.addEventListener('click', async () => {
+      if (audio.paused) {
+        try {
+          await audio.play();
+          iconPlay.classList.add('hidden');
+          iconPause.classList.remove('hidden');
+          labelEl.classList.add('hidden');
+          songEl.classList.remove('hidden');
+          startMetadata(songEl);
+        } catch (e) {
+          console.error('Audio play failed', e);
+        }
+      } else {
+        audio.pause();
+        iconPlay.classList.remove('hidden');
+        iconPause.classList.add('hidden');
+        labelEl.classList.remove('hidden');
+        songEl.classList.add('hidden');
+        stopMetadata();
+      }
+    });
   });
 </script>
